@@ -1,0 +1,147 @@
+@charset "UTF-8";
+/* CSS Document */
+
+html, body {
+	/*	background-color: #2CB3F8;*/
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+}
+.ac-container {
+	border-radius: 10px;
+	background-color: rgb(27, 27, 27);
+	opacity: 0.7;
+	float: right;
+	position: fixed;
+	right: 1px;
+	top: 1px;
+	height: auto;
+	width: 300px;
+	margin: 10px auto 30px auto;
+	text-align: left;
+}
+.ac-container label {
+	border-radius: 8px;
+	/*	font-family: 'BebasNeueRegular', 'Arial Narrow', Arial, sans-serif;*/
+	text-align: center;
+	padding: 5px 20px;
+	position: relative;
+	z-index: 20;
+	display: block;
+	height: 30px;
+	cursor: pointer;
+	color: #fff;
+	line-height: 33px;
+	font-size: 19px;
+	font-weight: 300;
+}
+.ac-container label:hover {
+	background: #403F3F;
+}
+.ac-container input:checked + label, .ac-container input:checked + label:hover {
+	background: #403F3F;/*	color: #fff;	*/
+}
+.ac-container label:hover:after, .ac-container input:checked + label:hover:after {
+	content: '';
+	position: absolute;
+	width: 24px;
+	height: 24px;
+	right: 13px;
+	top: 7px;
+	background: transparent url(../images/arrow_down.png) no-repeat center center;
+}
+.ac-container input:checked + label:hover:after {
+	background-image: url(../images/arrow_up.png);
+}
+.ac-container input {
+	display: none;
+}
+.ac-container article {
+	/*	background: rgba(255, 255, 255, 0.5);*/
+	margin-top: -1px;
+	overflow: auto;
+	height: 0px;
+	position: relative;
+	z-index: 10;
+	-webkit-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
+	-moz-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
+	-o-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
+	-ms-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
+	transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
+}
+.ac-container input:checked ~ article {
+	-webkit-transition: height 0.5s ease-in-out, box-shadow 0.1s linear;
+	-moz-transition: height 0.5s ease-in-out, box-shadow 0.1s linear;
+	-o-transition: height 0.5s ease-in-out, box-shadow 0.1s linear;
+	-ms-transition: height 0.5s ease-in-out, box-shadow 0.1s linear;
+	transition: height 0.5s ease-in-out, box-shadow 0.1s linear;/*	box-shadow: 0px 0px 0px 1px rgba(155,155,155,0.3);*/
+}
+.ac-container input:checked ~ article.ac-small {
+	height: 225px;
+}
+.ac-container input:checked ~ article.ac-medium {
+	color: #FFFFFF;
+	font-size: 27px;
+	height: 180px;
+}
+.button {
+	border: 1px #FFFFFF solid;
+	padding: 3px 10px;
+	border-radius: 30px;
+	color: #FFFFFF;
+	text-decoration: none;
+	font-size: 13px;
+	font-weight: 300;
+}
+h3 {
+	font-weight: 200;
+	margin: 15px 13px;
+	color: #fff;
+	font-size: 19px;
+}
+.butgroup {
+	margin: 5px;
+}
+#myCanvas {
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+}
+#mid {
+	width: 50px;
+	height: 50px;
+	top: 35%;
+	left: 45%;
+	background: url(../images/boat.png);
+	cursor: pointer;
+	position: absolute;
+	z-index: 100;
+}
+#receiver {
+	background-color: #CFEACE;
+	height: 100%;
+	border: 1px solid #00457b;
+	padding: 8px;
+	font-size: .85em;
+}
+
+#myCanvas p {
+	color: #FFFFFF;
+	font-weight: 200;
+	font-size: 0.35em;
+	line-height: 40%;
+	letter-spacing: 0.08em;
+}
+
+#switch {
+	font-size: 0.25em;
+}
+
+.info {
+	color: #FFFFFF;
+	position: absolute;
+	top: 0em;
+	right: 1.5em;
+}
+
+
