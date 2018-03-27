@@ -151,7 +151,7 @@ function RUDDERRESET(){
 }
 
 function WINDE(){
-    // Reset the rudder angle to 0
+    // Turn on the East fan (top)
     var xmlhttp;
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
       xmlhttp = new XMLHttpRequest();
@@ -162,6 +162,7 @@ function WINDE(){
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("relay1").innerHTML = xmlhttp.responseText;
+		document.getElementById("fanE").src='./images/fanE_on.png';
       }
     }
     xmlhttp.open("GET", "06_queryRelay11.php", true);
@@ -169,7 +170,7 @@ function WINDE(){
 }
 
 function WINDW(){
-    // Reset the rudder angle to 0
+    // Turn on the West fan (bottom)
     var xmlhttp;
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
       xmlhttp = new XMLHttpRequest();
@@ -180,6 +181,7 @@ function WINDW(){
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("relay1").innerHTML = xmlhttp.responseText;
+		document.getElementById("fanW").src='./images/fanW_on.png';
       }
     }
     xmlhttp.open("GET", "06_queryRelay12.php", true);
@@ -187,7 +189,7 @@ function WINDW(){
 }
 
 function LED(){
-    // Reset the rudder angle to 0
+    // Turn on the light
     var xmlhttp;
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
       xmlhttp = new XMLHttpRequest();
@@ -223,7 +225,7 @@ function REMAINED(){
 }
 
 function WINDEC(){
-    // Reset the rudder angle to 0
+    // Turn off the East fan (top)
     var xmlhttp;
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
       xmlhttp = new XMLHttpRequest();
@@ -234,6 +236,7 @@ function WINDEC(){
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("relay1").innerHTML = xmlhttp.responseText;
+		document.getElementById("fanE").src='./images/fanE_off.png';
       }
     }
     xmlhttp.open("GET", "06_queryRelay110.php", true);
@@ -241,7 +244,7 @@ function WINDEC(){
 }
 
 function WINDWC(){
-    // Reset the rudder angle to 0
+    // Turn off the West fan (bottom)
     var xmlhttp;
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
       xmlhttp = new XMLHttpRequest();
@@ -252,6 +255,7 @@ function WINDWC(){
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("relay1").innerHTML = xmlhttp.responseText;
+		document.activeElement("fanW").src='./images/fanW_off.png';
       }
     }
     xmlhttp.open("GET", "06_queryRelay120.php", true);

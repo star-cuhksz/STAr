@@ -50,54 +50,54 @@
       var event = ent || window.event;
       switch (event.keyCode) {
         // 监听键盘操作
-        case 87:  // Press KeyW
+        case 87:  	// Press KeyW
           UP();
           break;
-        case 83:  // Press KeyS
+        case 83:  	// Press KeyS
           DOWN();
           break;
-        case 65:  // Press KeyA
+        case 65:  	// Press KeyA
           LEFT();
           break;
-        case 68:  // Press KeyD
+        case 68:  	// Press KeyD
           RIGHT();
           break;
-		case 82: //Press KeyR
-		  WINDW();
-		  break;
-	    case 84: //Press KeyT
-		  WINDE();
-		  break;
-		case 70:  //Press KeyF
-		  WINDWC();
-		  break;
-		case 71:  //Press KeyG
-		  WINDEC();
-		  break;
-		case 67: //Press KeyC
-		  LED(); 
-		  break;
-		case 86: //Press KeyV
-		  LEDC();
-		  break;		
-		case 72:  //Press KeyH
-		  WINDW();
-		  break;
-		case 74:  //Press KeyJ
-		  WINDWC();
-		  break;
-		case 73: //Press KeyI
-		  LU();
-		  break;
-		case 79: //Press KeyO
-		  RU();
-		  break;
-		case 75: //Press KeyK
-		  LD();
-		  break;
-		 case 76: //Press KeyL
-		  RD();
-		  break;
+        case 82: 	// Press KeyR
+          WINDW();	// Turn on West fan (bottom)
+          break;
+        case 84: 	// Press KeyT
+          WINDE();	// Turn on East fan (top)
+          break;
+        case 70:  	// Press KeyF
+          WINDWC();	// Turn off West fan (bottom)
+          break;
+        case 71:  	// Press KeyG
+          WINDEC();	// Turn off East fan (top)
+          break;
+        case 67: 	// Press KeyC
+          LED(); 	// Turn on the light
+          break;
+        case 86: 	//Press KeyV
+          LEDC();	// Turn off the light
+          break;		
+        case 72:  	//Press KeyH
+          WINDW();
+          break;
+        case 74:  //Press KeyJ
+          WINDWC();
+          break;
+        case 73: //Press KeyI
+          LU();
+          break;
+        case 79: //Press KeyO
+          RU();
+          break;
+        case 75: //Press KeyK
+          LD();
+          break;
+        case 76: //Press KeyL
+          RD();
+          break;
         case 37:  // Press ArrowLeft
           mid.style.left = Math.max(0, mid.offsetLeft - 5) + "px";
           var pageCoords = "( " + mid.style.top + ", " + mid.style.down + " )";
@@ -140,9 +140,21 @@
           <br>
           <span>Angle: </span> <span id="angle"></span>
           <br>
+          <div class="meter">
+            <span id="angleBar"></span>
+          </div>
           <span>Back: </span> <span id="back"></span>
           <br>
           <span>Back2: </span> <span id="back2"></span>
+          <br>
+          <div class="meter">
+            <span id="back2Bar"></span>
+          </div>
+          <span>Fan1 &emsp; Fan2</span> 
+          <br>
+          <img src="images/fanE_off.png" class="fan" id="fanE" onclick="WINDE()" title="Click to turn on"/>
+			 <span> &emsp; </span>
+		  <img src="images/fanW_off.png" class="fan" id="fanW" onclick="WINDW()" title="Click to turn on"/>
           <br>
 		<a href="javascript:void(0)" class="button" id="switch" onclick="Autofresh()">SWITCH</a>
         </div>
