@@ -263,7 +263,7 @@ function WINDWC(){
 }
 
 function LEDC(){
-    // Reset the rudder angle to 0
+    // Turn off the light
     var xmlhttp;
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
       xmlhttp = new XMLHttpRequest();
