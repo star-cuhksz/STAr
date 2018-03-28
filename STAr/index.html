@@ -163,9 +163,9 @@
           </div>
           <span>Fan1 &emsp; Fan2</span> 
           <br>
-          <img src="images/fanE_off.png" class="fanC" id="fanE" onclick="WINDE()" title="Click to turn on"/>
+          <img src="images/fanE_off.png" class="fanC" id="fanE_C" onclick="WINDE()" title="Click to turn on"/>
 			 <span> &emsp; </span>
-		  <img src="images/fanW_off.png" class="fanC" id="fanW" onclick="WINDW()" title="Click to turn on"/>
+		  <img src="images/fanW_off.png" class="fanC" id="fanW_C" onclick="WINDW()" title="Click to turn on"/>
           <br>
 		<a href="javascript:void(0)" class="button" id="switch" onclick="Autofresh()">SWITCH</a>
         </div>
@@ -178,9 +178,11 @@
       <article class="ac-medium">
         <div id="sail">
           <h3>Change sail angle:</h3>
+          <h3 id="sail_angle"></h3>
           <a href="javascript:void(0)" class="butgroup"> <a href="javascript:void(0)" class="button" onClick="DOWN()">DOWN</a> <a href="javascript:void(0)" class="button" onClick="UP()">UP</a> <a href="javascript:void(0)" class="button" onClick="SAILSETMAX()">SET TO MAX</a> <a href="javascript:void(0)" class="button" onClick="SAILRESET()">RESET</a> </a> </div>
         <div id="rudder">
           <h3>Change rudder angle:</h3>
+          <h3 id="rudder_angle"></h3>
           <a href="javascript:void(0)" class="butgroup"><a href="javascript:void(0)" class="button" onclick="LEFT()">LEFT</a> <a href="javascript:void(0)" class="button" onclick="RIGHT()">RIGHT</a> <a href="javascript:void(0)" class="button" onclick="RUDDERSET45()">SET TO 45°</a> <a href="javascript:void(0)" class="button" onclick="RUDDERRESET()">RESET</a></a> </div>
       </article>
     </div>

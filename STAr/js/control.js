@@ -13,7 +13,7 @@ function DOWN() {
     }
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            document.getElementById("sail").innerHTML = xmlhttp.responseText;
+            document.getElementById("sail_angle").innerHTML = xmlhttp.responseText;
             var result = xmlhttp.responseText;
             //console.log(result);
             var timestamp2 = new Date().getTime();
@@ -36,7 +36,7 @@ function UP() {
     }
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            document.getElementById("sail").innerHTML = xmlhttp.responseText;
+            document.getElementById("sail_angle").innerHTML = xmlhttp.responseText;
         }
     }
     xmlhttp.open("GET", "06_queryInsert.php", true);
@@ -54,7 +54,7 @@ function SAILRESET() {
     }
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            document.getElementById("sail").innerHTML = xmlhttp.responseText;
+            document.getElementById("sail_angle").innerHTML = xmlhttp.responseText;
         }
     }
     xmlhttp.open("GET", "06_querySailReset.php", true);
@@ -72,7 +72,7 @@ function SAILSETMAX(){
     }
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            document.getElementById("sail").innerHTML = xmlhttp.responseText;
+            document.getElementById("sail_angle").innerHTML = xmlhttp.responseText;
         }
     }
     xmlhttp.open("GET", "06_querySailSetMax.php", true);
@@ -90,7 +90,7 @@ function LEFT() {
     }
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            document.getElementById("rudder").innerHTML = xmlhttp.responseText;
+            document.getElementById("rudder_angle").innerHTML = xmlhttp.responseText;
         }
     }
     xmlhttp.open("GET", "06_queryInsertRudderLeft.php", true);
@@ -107,7 +107,7 @@ function RIGHT() {
     }
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            document.getElementById("rudder").innerHTML = xmlhttp.responseText;
+            document.getElementById("rudder_angle").innerHTML = xmlhttp.responseText;
         }
     }
     xmlhttp.open("GET", "06_queryInsertRudderRight.php", true);
@@ -125,7 +125,7 @@ function RUDDERRESET(){
     }
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        document.getElementById("rudder").innerHTML = xmlhttp.responseText;
+        document.getElementById("rudder_angle").innerHTML = xmlhttp.responseText;
       }
     }
     xmlhttp.open("GET", "06_queryRudderReset.php", true);
@@ -143,7 +143,7 @@ function RUDDERRESET(){
     }
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        document.getElementById("rudder").innerHTML = xmlhttp.responseText;
+        document.getElementById("rudder_angle").innerHTML = xmlhttp.responseText;
       }
     }
     xmlhttp.open("GET", "06_queryRudderSetTo45.php", true);
@@ -162,7 +162,8 @@ function WINDE(){
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("relay1").innerHTML = xmlhttp.responseText;
-		document.getElementById("fanE").src='./images/fanE_on.png';
+		document.getElementById("fanE").src='../images/FanE_on1.png';
+		document.getElementById("fanE_C").src='../images/fanE_on.png';
       }
     }
     xmlhttp.open("GET", "06_queryRelay11.php", true);
@@ -181,7 +182,8 @@ function WINDW(){
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("relay1").innerHTML = xmlhttp.responseText;
-		document.getElementById("fanW").src='./images/fanW_on.png';
+		document.getElementById("fanW").src='../images/fanW_on1.png';
+		document.getElementById("fanW_C").src='../images/fanW_on.png';
       }
     }
     xmlhttp.open("GET", "06_queryRelay12.php", true);
@@ -236,7 +238,8 @@ function WINDEC(){
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("relay1").innerHTML = xmlhttp.responseText;
-		document.getElementById("fanE").src='./images/fanE_off.png';
+		document.getElementById("fanE").src='../images/fanE_off1.png';
+		document.getElementById("fanE_C").src='../images/fanE_off.png';
       }
     }
     xmlhttp.open("GET", "06_queryRelay110.php", true);
@@ -255,7 +258,8 @@ function WINDWC(){
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         document.getElementById("relay1").innerHTML = xmlhttp.responseText;
-		document.activeElement("fanW").src='./images/fanW_off.png';
+		document.getElementById("fanW").src='../images/fanW_off1.png';
+		document.getElementById("fanW_C").src='../images/fanW_off.png';
       }
     }
     xmlhttp.open("GET", "06_queryRelay120.php", true);
@@ -309,7 +313,7 @@ function RU(){
     }
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        document.getElementById("sail").innerHTML = xmlhttp.responseText;
+        document.getElementById("sail_angle").innerHTML = xmlhttp.responseText;
       }
     }
     xmlhttp.open("GET", "06_queryRightUp.php", true);
@@ -327,7 +331,7 @@ function RD(){
     }
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        document.getElementById("sail").innerHTML = xmlhttp.responseText;
+        document.getElementById("sail_angle").innerHTML = xmlhttp.responseText;
       }
     }
     xmlhttp.open("GET", "06_queryRightDown.php", true);
@@ -344,7 +348,7 @@ function LU(){
     }
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        document.getElementById("rudder").innerHTML = xmlhttp.responseText;
+        document.getElementById("rudder_angle").innerHTML = xmlhttp.responseText;
       }
     }
     xmlhttp.open("GET", "06_queryLeftUp.php", true);
@@ -361,7 +365,7 @@ function LD(){
     }
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        document.getElementById("rudder").innerHTML = xmlhttp.responseText;
+        document.getElementById("rudder_angle").innerHTML = xmlhttp.responseText;
       }
     }
     xmlhttp.open("GET", "06_queryLeftDown.php", true);
@@ -379,7 +383,7 @@ function HW(){
     }
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        document.getElementById("rudder").innerHTML = xmlhttp.responseText;
+        document.getElementById("rudder_angle").innerHTML = xmlhttp.responseText;
       }
     }
     xmlhttp.open("GET", "06_queryHybridW.php", true);
@@ -397,7 +401,7 @@ function HS(){
     }
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        document.getElementById("rudder").innerHTML = xmlhttp.responseText;
+        document.getElementById("rudder_angle").innerHTML = xmlhttp.responseText;
       }
     }
     xmlhttp.open("GET", "06_queryHybridS.php", true);
@@ -415,7 +419,7 @@ function HA(){
     }
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        document.getElementById("rudder").innerHTML = xmlhttp.responseText;
+        document.getElementById("rudder_angle").innerHTML = xmlhttp.responseText;
       }
     }
     xmlhttp.open("GET", "06_queryHybridL.php", true);
@@ -433,7 +437,7 @@ function HD(){
     }
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        document.getElementById("rudder").innerHTML = xmlhttp.responseText;
+        document.getElementById("rudder_angle").innerHTML = xmlhttp.responseText;
       }
     }
     xmlhttp.open("GET", "06_queryHybridR.php", true);
