@@ -11,8 +11,12 @@
 
 <body onLoad="Autofresh();KBCONTROL()">
 
-<div class="realtimeVideo" id="receiver123">
-	<img id="receiver" style="width:1280px;height:640px" />
+<div style="text-align: center; background-image: url(images/water-blue-ocean.jpg); " class="realtimeVideo" id="receiver123">
+	<img src="images/fanE_off1.png" class="fan" id="fanE" onclick="WINDE()" title="Click to turn on"/>
+	<br>
+	<img id="receiver" style="width:850px;height:850px" />
+	<br>
+	<img src="images/fanW_off1.png" class="fan" id="fanW" onclick="WINDW()" title="Click to turn on"/>
 <br>
 <!--If there is no image, check whether the camera is open! -->
 </div> 
@@ -64,15 +68,19 @@
           break;
         case 82: 	// Press KeyR
           WINDW();	// Turn on West fan (bottom)
+		  document.getElementById('fanW').src='./images/fanW_on1.png';
           break;
         case 84: 	// Press KeyT
           WINDE();	// Turn on East fan (top)
+		  document.getElementById('fanE').src='./images/fanE_on1.png';
           break;
         case 70:  	// Press KeyF
           WINDWC();	// Turn off West fan (bottom)
+		  document.getElementById('fanW').src='./images/fanW_off1.png';
           break;
         case 71:  	// Press KeyG
           WINDEC();	// Turn off East fan (top)
+		  document.getElementById('fanE').src='./images/fanE_off1.png';
           break;
         case 67: 	// Press KeyC
           LED(); 	// Turn on the light
@@ -99,32 +107,35 @@
           RD();
           break;
         case 37:  // Press ArrowLeft
-          mid.style.left = Math.max(0, mid.offsetLeft - 5) + "px";
-          var pageCoords = "( " + mid.style.top + ", " + mid.style.down + " )";
-          var clientCoords = "( " + mid.style.left + ", " + mid.style.top + " )";
-          //  $( "span:first" ).text( "( position.pageX, position.pageY ) : " + pageCoords+ ","+clientCoords);
-          $("span:last").text("( postion.clientX, position.clientY ) : " + clientCoords);
-          break;
-        case 38:  // Press ArrowUp
-          mid.style.top = Math.max(0, mid.offsetTop - 5) + "px";
-          var pageCoords = "( " + mid.style.top + ", " + mid.style.down + " )";
-          var clientCoords = "( " + mid.style.left + ", " + mid.style.top + " )";
-          //  $( "span:first" ).text( "( position.pageX, position.pageY ) : " + pageCoords+ ","+clientCoords);
-          $("span:last").text("( postion.clientX, position.clientY ) : " + clientCoords);
-          break;
-        case 39:  // Press ArrowRight
-          mid.style.left = Math.min(375, mid.offsetLeft + 5) + "px";
-          var pageCoords = "( " + mid.style.top + ", " + mid.style.down + " )";
-          var clientCoords = "( " + mid.style.left + ", " + mid.style.top + " )";
-          //  $( "span:first" ).text( "( position.pageX, position.pageY ) : " + pageCoords+ ","+clientCoords);
-          $("span:last").text("( postion.clientX, position.clientY ) : " + clientCoords);
-          break;
-        case 40:  // Press ArrowDown
-          mid.style.top = Math.min(575, mid.offsetTop + 5) + "px";
+		  HA();
+          //mid.style.left = Math.max(0, mid.offsetLeft - 5) + "px";
           //var pageCoords = "( " + mid.style.top + ", " + mid.style.down + " )";
           //var clientCoords = "( " + mid.style.left + ", " + mid.style.top + " )";
-
-          $("span:last").text("( postion.clientX, position.clientY ) : " + clientCoords);
+          //  $( "span:first" ).text( "( position.pageX, position.pageY ) : " + pageCoords+ ","+clientCoords);
+          //$("span:last").text("( postion.clientX, position.clientY ) : " + clientCoords);
+          break;
+        case 38:  // Press ArrowUp
+		  HW();
+          //mid.style.top = Math.max(0, mid.offsetTop - 5) + "px";
+          //var pageCoords = "( " + mid.style.top + ", " + mid.style.down + " )";
+          //var clientCoords = "( " + mid.style.left + ", " + mid.style.top + " )";
+          //  $( "span:first" ).text( "( position.pageX, position.pageY ) : " + pageCoords+ ","+clientCoords);
+          //$("span:last").text("( postion.clientX, position.clientY ) : " + clientCoords);
+          break;
+        case 39:  // Press ArrowRight
+		  HD();
+          //mid.style.left = Math.min(375, mid.offsetLeft + 5) + "px";
+          //var pageCoords = "( " + mid.style.top + ", " + mid.style.down + " )";
+          //var clientCoords = "( " + mid.style.left + ", " + mid.style.top + " )";
+          //  $( "span:first" ).text( "( position.pageX, position.pageY ) : " + pageCoords+ ","+clientCoords);
+          //$("span:last").text("( postion.clientX, position.clientY ) : " + clientCoords);
+          break;
+        case 40:  // Press ArrowDown
+		  HS();
+          //mid.style.top = Math.min(575, mid.offsetTop + 5) + "px";
+          //var pageCoords = "( " + mid.style.top + ", " + mid.style.down + " )";
+          //var clientCoords = "( " + mid.style.left + ", " + mid.style.top + " )";
+          //$("span:last").text("( postion.clientX, position.clientY ) : " + clientCoords);
           break;
         // default:
         // need some prompt message here
