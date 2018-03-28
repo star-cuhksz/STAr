@@ -118,8 +118,8 @@ h3 {
 	z-index: 100;
 }
 #receiver {
-	background-color: #CFEACE;
-	height: 100%;
+/*	background-color: #CFEACE;*/
+/*	background-image: url(../images/red-01.png);*/
 	border: 1px solid #00457b;
 	padding: 8px;
 	font-size: .85em;
@@ -164,4 +164,34 @@ h3 {
 	border-radius: 10px;
 	padding: 1px;
 	box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
+}
+
+.fanC {
+	height: 41px;
+	width: 41px;
+	cursor: pointer;
+}
+
+#receiver123 {
+/*
+	text-align: center;
+	background-image: url('./images/red-01.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 0;
+*/
+/*    padding-top: 66.64%;  (img-height / img-width * container-width) */
+                /* (853 / 1280 * 100) */
+}
+
+div {
+	
+}
+
+.realtimeVideo {
+	text-align: center;
+	background-image: url(../images/red-01.png);
+	background-size: contain;
+/*	background-repeat: no-repeat;*/
 }
