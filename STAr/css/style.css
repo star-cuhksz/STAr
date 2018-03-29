@@ -155,15 +155,7 @@ h3 {
 }
 
 .meter {
-	height: 2px;  /* Can be anything */
-	position: relative;
-	margin: 5px;
 	background: #555;
-	-moz-border-radius: 10px;
-	-webkit-border-radius:10px;
-	border-radius: 10px;
-	padding: 1px;
-	box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
 }
 
 .fanC {
@@ -194,4 +186,26 @@ div {
 	background-image: url(../images/red-01.png);
 	background-size: contain;
 /*	background-repeat: no-repeat;*/
+}
+
+#angleBar {
+	background:#DFDFDF;
+	margin: 0em;
+	width: 50%;
+}
+
+.round-conner {
+	height: 0.3em;  /* Can be anything */
+	position: relative;
+	margin: 5px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius:10px;
+	border-radius: 10px;
+	box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
+}
+
+#back2Bar {
+	background: #DFDFDF;
+	margin: 0em;
+	width: 50%;
 }
