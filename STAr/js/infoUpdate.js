@@ -69,8 +69,8 @@ function doAjaxa() {// Update angle
         dis2 = timestamp4 - timestamp3;
         document.getElementById("back2").innerHTML = dis2;
 		// below
-		var angleRate = aa / (maxAngle-minAngle) * 100 + "%";
-		var back2Rate = dis2 / (maxBack2-minBack2) * 100 + "%";
+		var angleRate = (aa-minAngle) / (maxAngle-minAngle) * 100 + "%";
+		var back2Rate = (dis2-minBack2) / (maxBack2-minBack2) * 100 + "%";
 		angleBar.style.width = angleRate;
 		back2Bar.style.width = back2Rate;
     }
