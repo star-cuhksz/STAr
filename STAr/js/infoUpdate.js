@@ -57,6 +57,10 @@ function doAjaxa() {// Update angle
     if (xmlobja.readyState == 4 && xmlobja.status == 200) {
         var aa = xmlobja.responseText - 135;
         var mid = document.getElementById("mid");
+		var maxAngle = ;	// Maximum angle
+		var minAngle = ;	// Minimum angle
+		var maxBack2 = ;	// Maximum back2
+		var minBack2 = ;	// Minimum back2
         mid.style.transform = 'rotate(' + aa + 'deg)';
         document.getElementById("angle").innerHTML = aa;
         //console.log(xx);
@@ -64,5 +68,10 @@ function doAjaxa() {// Update angle
         var timestamp4 = new Date().getTime();
         dis2 = timestamp4 - timestamp3;
         document.getElementById("back2").innerHTML = dis2;
+		// below
+		var angleRate = (aa-minAngle) / (maxAngle-minAngle) * 100 + "%";
+		var back2Rate = (dis2-minBack2) / (maxBack2-minBack2) * 100 + "%";
+		angleBar.style.width = angleRate;
+		back2Bar.style.width = back2Rate;
     }
 }
