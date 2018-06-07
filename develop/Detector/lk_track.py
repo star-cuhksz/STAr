@@ -24,7 +24,7 @@ from __future__ import print_function
 import numpy as np
 import cv2 as cv
 import video
-from common import anorm2, draw_str
+from common import anorm2, draw_str, get_velocity
 from time import clock
 
 # Parameters for lucas kanade optical flow
@@ -43,30 +43,20 @@ class App:
         """
         Optical flow initiation
         :param  video_src: the path of video source
-        :datafield  self.track_len:
-                    self.detect_interval: frequency of finding feature points
-                    self.tracks: tracking points
-                    self.cam: video instance obtained from video_src
-                    self.frame_idx:
-                    self.trace_color: color of the trace, BGR pattern
+        :datafield  self.track_len: \n
+                    self.detect_interval: frequency of finding feature points \n
+                    self.tracks: tracking points \n
+                    self.cam: video instance obtained from video_src \n
+                    self.frame_idx: \n
+                    self.trace_color: color of the trace, BGR pattern \n
         """
         self.track_len = 10
         self.detect_interval = 5
         self.tracks = []
         self.cam = video.create_capture(video_src)
         self.frame_idx = 0
+        self.point_color = (0, 0, 255)
         self.trace_color = (0, 0, 255)
-
-    # def get_velocity(self, point_prev, point_curr):
-    #     """
-    #     Calculate the velocity of the interested feature points.
-    #     :param point_prev: previous point in type numpy.array
-    #     :param point_curr: current point in type numpy.array
-    #     :return: the velocity of this point in unit 'pixel/frame'
-    #     """
-    #     distance = np.linalg.norm(point_prev - point_curr)
-    #     velocity = float(distance / self.detect_interval)
-    #     return velocity
 
     def run(self):
         while True:
@@ -94,10 +84,14 @@ class App:
                     if len(tr) > self.track_len:
                         del tr[0]
                     new_tracks.append(tr)
-                    cv.circle(img=vis, center=(x, y), radius=2, color=self.trace_color, thickness=-1)
+                    cv.circle(img=vis, center=(x, y), radius=2, color=self.point_color, thickness=-1)
                 self.tracks = new_tracks
-                cv.polylines(vis, [np.int32(tr) for tr in self.tracks], False, (0, 255, 0))
+                # draw trace
+                cv.polylines(vis, [np.int32(tr) for tr in self.tracks], False, self.trace_color)
+                # show information
                 draw_str(vis, (20, 20), 'track count: %d' % len(self.tracks))
+                # draw_str(vis, (20, 40), 'velocity: %d' % get_velocity(point_prev=p0[-1], point_curr=p1[-1],
+                #                                                       time_interval=self.detect_interval))
 
             # detect feature points every detect_interval frames
             if self.frame_idx % self.detect_interval == 0:
@@ -106,6 +100,7 @@ class App:
                 mask[:] = 255
                 for x, y in [np.int32(tr[-1]) for tr in self.tracks]:
                     cv.circle(img=mask, center=(x, y), radius=5, color=0, thickness=-1)
+                # detect new feature points
                 p = cv.goodFeaturesToTrack(frame_gray, mask=mask, **feature_params)
                 if p is not None:
                     for x, y in np.float32(p).reshape(-1, 2):
