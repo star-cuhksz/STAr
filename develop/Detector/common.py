@@ -79,6 +79,14 @@ def mtx2rvec(R):
     return axis * np.arctan2(s, c)
 
 def draw_str(dst, target, s):
+    """
+    draw_str(dst, target, s) -> None
+
+    :param dst: destination image
+    :param target:  coordinate where the string starts
+    :param s:   text string to be drawn
+    :return:    None
+    """
     x, y = target
     cv.putText(dst, s, (x+1, y+1), cv.FONT_HERSHEY_PLAIN, 1.0, (0, 0, 0), thickness = 2, lineType=cv.LINE_AA)
     cv.putText(dst, s, (x, y), cv.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), lineType=cv.LINE_AA)
@@ -235,3 +243,18 @@ def draw_keypoints(vis, keypoints, color = (0, 255, 255)):
     for kp in keypoints:
         x, y = kp.pt
         cv.circle(vis, (int(x), int(y)), 2, color)
+
+# Following are modules designed by STAr
+def get_velocity(point_prev, point_curr, time_interval):
+    """
+    get_velocity(point_prev, point_curr) -> float velocity
+
+    Calculate the velocity of the interested feature points. \n
+    :param point_prev: previous point in type numpy.array \n
+    :param point_curr: current point in type numpy.array \n
+    :param time_interval: time interval between point_prev and point_curr
+    :return: the velocity of this point in unit 'pixel/time_interval'
+    """
+    distance = np.linalg.norm(point_prev - point_curr)
+    velocity = float(distance / time_interval)
+    return velocity
