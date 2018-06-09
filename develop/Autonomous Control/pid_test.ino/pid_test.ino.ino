@@ -13,14 +13,16 @@ int comInt;
 #include <PID_v1.h>
 #include <JY901.h>
 #include <Adafruit_INA219.h>
+//
 
-#define PIN_INPUT 0
-#define PIN_OUTPUT 3
 
-float shuntvoltage = 0;
-float busvoltage = 0;
-float current_mA = 0; 
-float loadvoltage = 0;
+//float shuntvoltage = 0;
+//float busvoltage = 0;
+//float current_mA = 0; 
+//float loadvoltage = 0;
+//these variables are for current sensor
+
+
 Servo rudder;  // create servo object to control a servo
 Servo sail;
 int pos_rudder=90;
@@ -51,7 +53,7 @@ void setup()
   while(Serial.read()>= 0){}//clear serialbuffer  
   
   //initialize the variables we're linked to
-  Input = analogRead(PIN_INPUT);
+
   Setpoint = -100;
 
   //turn the PID on
@@ -64,7 +66,7 @@ void loop()
   JY901.GetAngle();
   ini_Input = (float)JY901.stcAngle.Angle[2]/32768*180;
   double gap = abs(Setpoint-ini_Input); //distance away from setpoint
-  if (gap < 10)
+  if (gap < 50)
   {  //we're close to setpoint, use conservative tuning parameters
     myPID.SetTunings(consKp, consKi, consKd);
   }
@@ -73,6 +75,7 @@ void loop()
      //we're far from setpoint, use aggressive tuning parameters
      myPID.SetTunings(aggKp, aggKi, aggKd);
   }
+  // To garentee the boat to turn correctly in the following two situation
   if(Setpoint>0 && ini_Input<Setpoint-180){
     Input=360+ini_Input;
   }
@@ -82,9 +85,9 @@ void loop()
   else{
     Input=ini_Input;
   }
-  myPID.Compute();
+  myPID.Compute();//the output value will be rewrite here
   pos_rudder=86+Output*36/255;
   move_rudder();
 //  Serial.print(ini_Input);Serial.print('b');Serial.print(pos_rudder);Serial.println(Output);
-  analogWrite(PIN_OUTPUT, Output);
+
 }
