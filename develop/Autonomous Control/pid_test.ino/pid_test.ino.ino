@@ -27,10 +27,10 @@ Servo rudder;  // create servo object to control a servo
 Servo sail;
 int pos_rudder=90;
 int pos_sail=115;
-
+long time,lasttime;
 //Define Variables we'll be connecting to
 double Setpoint, Input, Output,ini_Input;
-
+int Ms=200;
 //Define the aggressive and conservative Tuning Parameters
 double aggKp=4, aggKi=0.2, aggKd=1;
 double consKp=1, consKi=0.05, consKd=0.25;
@@ -53,8 +53,8 @@ void setup()
   while(Serial.read()>= 0){}//clear serialbuffer  
   
   //initialize the variables we're linked to
-
-  Setpoint = -100;
+  lasttime=millis();
+  Setpoint = 55;
 
   //turn the PID on
   myPID.SetMode(AUTOMATIC);
@@ -63,6 +63,10 @@ void setup()
 
 void loop()
 {
+  char command=Serial.read();
+  if(command==byte(',')){   
+      Setpoint = Serial.parseInt();
+  }
   JY901.GetAngle();
   ini_Input = (float)JY901.stcAngle.Angle[2]/32768*180;
   double gap = abs(Setpoint-ini_Input); //distance away from setpoint
@@ -88,6 +92,10 @@ void loop()
   myPID.Compute();//the output value will be rewrite here
   pos_rudder=86+Output*36/255;
   move_rudder();
-//  Serial.print(ini_Input);Serial.print('b');Serial.print(pos_rudder);Serial.println(Output);
+  time=millis();//去现在时间(ms)
+  if(time-lasttime>=Ms){
+    lasttime=time;
+    Serial.print(ini_Input);Serial.print('b');Serial.print(pos_rudder);Serial.println(Output);
+  }
 
 }
