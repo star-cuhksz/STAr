@@ -26,6 +26,7 @@ import cv2 as cv
 import video
 from common import anorm2, draw_str, get_velocity, draw_velocity_arrowedline
 from time import clock
+from datetime import datetime
 
 # Parameters for lucas kanade optical flow
 lk_params = dict( winSize  = (15, 15),
@@ -61,6 +62,7 @@ class App:
         self.tracks = []
         self.cam = video.create_capture(video_src)
         self.frame_idx = 0
+        self.log_velocity_file = datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + ".velocity_log"
         self.point_color = (0, 255, 0)
         self.trace_color = (0, 255, 0)
         self.velocity_params = dict(color=(0, 0, 255),
@@ -105,11 +107,18 @@ class App:
                 cv.polylines(img=vis, pts=[np.int32(tr) for tr in self.tracks], isClosed=False, color=self.trace_color)
 
                 # draw velocity arrowed line
+                velocity_per_frame = []
                 for (x1, y1), (x2, y2), good_flag in zip(p0.reshape(-1, 2), p1.reshape(-1, 2), good):
                     if not good_flag:
                         continue
+                    velocity_per_frame.append(get_velocity(point_prev=(x1, y1), point_curr=(x2, y2),
+                                                           time_interval=self.detect_interval))
                     draw_velocity_arrowedline(output_img=vis, point_prev=(x1, y1), point_curr=(x2, y2),
                                               **self.velocity_params)
+
+                with open(self.log_velocity_file, 'a') as file:
+                    file.write(str(velocity_per_frame))
+                    file.write("\n\n")
 
                 # show information
                 draw_str(vis, (20, 20), 'track count: %d' % len(self.tracks))

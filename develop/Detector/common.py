@@ -255,7 +255,7 @@ def get_velocity(point_prev, point_curr, time_interval):
     :param time_interval: time interval between point_prev and point_curr
     :return: the velocity of this point in unit 'pixel/time_interval'
     """
-    distance = np.linalg.norm(point_prev - point_curr)
+    distance = ((point_prev[0] - point_curr[0]) ** 2 + (point_prev[1] - point_curr[1]) ** 2) ** 0.5
     velocity = float(distance / time_interval)
     return velocity
 
