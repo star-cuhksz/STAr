@@ -24,7 +24,7 @@ from __future__ import print_function
 import numpy as np
 import cv2 as cv
 import video
-from common import anorm2, draw_str, get_velocity
+from common import anorm2, draw_str, get_velocity, draw_velocity_arrowedline
 from time import clock
 
 # Parameters for lucas kanade optical flow
@@ -48,15 +48,25 @@ class App:
                     self.tracks: tracking points \n
                     self.cam: video instance obtained from video_src \n
                     self.frame_idx: \n
+                    self.point_color: color of the feature point, BGR pattern \n
                     self.trace_color: color of the trace, BGR pattern \n
+                    self.velocity_params: the parameters of velocity lines
+                                            color: the color of velocity lines
+                                            scale: the ratio of arrowed line and displacement
+                                            thickness: the thickness of velocity lines
+                                            line_type: determine how the line will be drawn on the image
         """
         self.track_len = 10
         self.detect_interval = 5
         self.tracks = []
         self.cam = video.create_capture(video_src)
         self.frame_idx = 0
-        self.point_color = (0, 0, 255)
-        self.trace_color = (0, 0, 255)
+        self.point_color = (0, 255, 0)
+        self.trace_color = (0, 255, 0)
+        self.velocity_params = dict(color=(0, 0, 255),
+                                    scale=10,
+                                    thickness=1,
+                                    line_type=cv.LINE_AA)
 
     def run(self):
         while True:
@@ -72,8 +82,12 @@ class App:
             if len(self.tracks) > 0:
                 img0, img1 = self.prev_gray, frame_gray
                 p0 = np.float32([tr[-1] for tr in self.tracks]).reshape(-1, 1, 2)
-                p1, _st, _err = cv.calcOpticalFlowPyrLK(img0, img1, p0, None, **lk_params)
-                p0r, _st, _err = cv.calcOpticalFlowPyrLK(img1, img0, p1, None, **lk_params)
+                # p1 is the list of 2D points containing the calculated new positions of input
+                # features in the nextImg
+                p1, _status, _err = cv.calcOpticalFlowPyrLK(prevImg=img0, nextImg=img1, prevPts=p0,
+                                                            nextPts=None, **lk_params)
+                p0r, _status, _err = cv.calcOpticalFlowPyrLK(prevImg=img1, nextImg=img0, prevPts=p1,
+                                                            nextPts=None, **lk_params)
                 d = abs(p0-p0r).reshape(-1, 2).max(-1)
                 good = d < 1
                 new_tracks = []
@@ -86,8 +100,17 @@ class App:
                     new_tracks.append(tr)
                     cv.circle(img=vis, center=(x, y), radius=2, color=self.point_color, thickness=-1)
                 self.tracks = new_tracks
+
                 # draw trace
-                cv.polylines(vis, [np.int32(tr) for tr in self.tracks], False, self.trace_color)
+                cv.polylines(img=vis, pts=[np.int32(tr) for tr in self.tracks], isClosed=False, color=self.trace_color)
+
+                # draw velocity arrowed line
+                for (x1, y1), (x2, y2), good_flag in zip(p0.reshape(-1, 2), p1.reshape(-1, 2), good):
+                    if not good_flag:
+                        continue
+                    draw_velocity_arrowedline(output_img=vis, point1=(x1, y1), point2=(x2, y2),
+                                              **self.velocity_params)
+
                 # show information
                 draw_str(vis, (20, 20), 'track count: %d' % len(self.tracks))
                 # draw_str(vis, (20, 40), 'velocity: %d' % get_velocity(point_prev=p0[-1], point_curr=p1[-1],
