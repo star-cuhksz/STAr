@@ -259,16 +259,16 @@ def get_velocity(point_prev, point_curr, time_interval):
     velocity = float(distance / time_interval)
     return velocity
 
-def draw_velocity_arrowedline(output_img, point1, point2, color, scale=1, thickness=1, line_type=cv.LINE_AA):
+def draw_velocity_arrowedline(output_img, point_prev, point_curr, color, scale=1, thickness=1, line_type=cv.LINE_AA):
     """
-    draw_velocity_arrowedline(output_img, point1, point2, color, scale, thickness, line_type)
+    draw_velocity_arrowedline(output_img, point_prev, point_curr, color, scale, thickness, line_type)
     -> draw an arrowed line on the output_img
 
     Draw an arrowed line from point2 to target_point according to point1.
 
     :param output_img: the image where velocity arrowed line will be shown \n
-    :param point1: the point in previous frame \n
-    :param point2: the point in next frame \n
+    :param point_prev: the point in previous frame \n
+    :param point_curr: the point in next frame \n
     :param color: the color of velocity arrowed line \n
     :param scale: the ratio of arrowed line and displacement \n
     :param thickness: the thickness of velocity lines \n
@@ -277,8 +277,8 @@ def draw_velocity_arrowedline(output_img, point1, point2, color, scale=1, thickn
     """
     if not scale >= 0:
         scale = 1
-    target_point_x = int( scale * (point2[0] - point1[0]) + point2[0])
-    target_point_y = int(scale * (point2[1] - point1[1]) + point2[1])
+    target_point_x = int(scale * (point_curr[0] - point_prev[0]) + point_curr[0])
+    target_point_y = int(scale * (point_curr[1] - point_prev[1]) + point_curr[1])
     target_point = (target_point_x, target_point_y)
-    cv.arrowedLine(img=output_img, pt1=point2, pt2=target_point, color=color,
+    cv.arrowedLine(img=output_img, pt1=point_curr, pt2=target_point, color=color,
                    thickness=thickness, line_type=line_type)

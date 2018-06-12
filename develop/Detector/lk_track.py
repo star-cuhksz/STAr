@@ -108,7 +108,7 @@ class App:
                 for (x1, y1), (x2, y2), good_flag in zip(p0.reshape(-1, 2), p1.reshape(-1, 2), good):
                     if not good_flag:
                         continue
-                    draw_velocity_arrowedline(output_img=vis, point1=(x1, y1), point2=(x2, y2),
+                    draw_velocity_arrowedline(output_img=vis, point_prev=(x1, y1), point_curr=(x2, y2),
                                               **self.velocity_params)
 
                 # show information
