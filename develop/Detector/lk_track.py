@@ -122,8 +122,6 @@ class App:
 
                 # show information
                 draw_str(vis, (20, 20), 'track count: %d' % len(self.tracks))
-                # draw_str(vis, (20, 40), 'velocity: %d' % get_velocity(point_prev=p0[-1], point_curr=p1[-1],
-                #                                                       time_interval=self.detect_interval))
 
             # detect feature points every detect_interval frames
             if self.frame_idx % self.detect_interval == 0:
