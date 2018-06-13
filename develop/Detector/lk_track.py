@@ -24,6 +24,7 @@ from __future__ import print_function
 import numpy as np
 import cv2 as cv
 import video
+import log_helper
 from common import anorm2, draw_str, get_velocity, draw_velocity_arrowedline
 from time import clock
 from datetime import datetime
@@ -49,6 +50,8 @@ class App:
                     self.tracks: tracking points \n
                     self.cam: video instance obtained from video_src \n
                     self.frame_idx: \n
+                    self.log_velocity: log_helper.Log instance that records velocity \n
+                    self.log_feature_points: log_helper.Log instance that records feature points \n
                     self.point_color: color of the feature point, BGR pattern \n
                     self.trace_color: color of the trace, BGR pattern \n
                     self.velocity_params: the parameters of velocity lines
@@ -62,7 +65,8 @@ class App:
         self.tracks = []
         self.cam = video.create_capture(video_src)
         self.frame_idx = 0
-        self.log_velocity_file = datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + ".velocity_log"
+        self.log_velocity = log_helper.Log(".velocity_log")
+        self.log_feature_points = log_helper.Log(".points_log")
         self.point_color = (0, 255, 0)
         self.trace_color = (0, 255, 0)
         self.velocity_params = dict(color=(0, 0, 255),
@@ -107,18 +111,19 @@ class App:
                 cv.polylines(img=vis, pts=[np.int32(tr) for tr in self.tracks], isClosed=False, color=self.trace_color)
 
                 # draw velocity arrowed line
-                velocity_per_frame = []
                 for (x1, y1), (x2, y2), good_flag in zip(p0.reshape(-1, 2), p1.reshape(-1, 2), good):
                     if not good_flag:
                         continue
-                    velocity_per_frame.append(get_velocity(point_prev=(x1, y1), point_curr=(x2, y2),
-                                                           time_interval=self.detect_interval))
+                    self.log_feature_points.log_buffer.append((x2, y2))
+                    self.log_velocity.log_buffer.append(get_velocity(point_prev=(x1, y1), point_curr=(x2, y2),
+                                                      time_interval=self.detect_interval))
                     draw_velocity_arrowedline(output_img=vis, point_prev=(x1, y1), point_curr=(x2, y2),
                                               **self.velocity_params)
 
-                with open(self.log_velocity_file, 'a') as file:
-                    file.write(str(velocity_per_frame))
-                    file.write("\n\n")
+                # export feature points per frame
+                self.log_feature_points.log_add(self.log_feature_points.log_buffer)
+                # export velocity data per frame
+                self.log_velocity.log_add(self.log_velocity.log_buffer)
 
                 # show information
                 draw_str(vis, (20, 20), 'track count: %d' % len(self.tracks))
