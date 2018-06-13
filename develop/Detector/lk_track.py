@@ -26,8 +26,7 @@ import cv2 as cv
 import video
 import log_helper
 from common import anorm2, draw_str, get_velocity, draw_velocity_arrowedline
-from time import clock
-from datetime import datetime
+
 
 # Parameters for lucas kanade optical flow
 lk_params = dict( winSize  = (15, 15),
