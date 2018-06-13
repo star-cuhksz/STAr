@@ -105,7 +105,11 @@ venv.bak/
 
 # MacOS
 .DS_Store
+develop/.DS_Store
 
 # PyCharm
 .idea/
-develop/.DS_Store
+
+# test log
+develop/Detector/*.velocity_log
+develop/Detector/*.points_log
