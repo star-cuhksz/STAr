@@ -114,8 +114,8 @@ class App:
                     if not good_flag:
                         continue
                     self.log_feature_points.log_buffer.append((x2, y2))
-                    self.log_velocity.log_buffer.append(get_velocity(point_prev=(x1, y1), point_curr=(x2, y2),
-                                                      time_interval=self.detect_interval))
+                    self.log_velocity.log_buffer.append(str(get_velocity(point_prev=(x1, y1), point_curr=(x2, y2),
+                                                      time_interval=self.detect_interval)))
                     draw_velocity_arrowedline(output_img=vis, point_prev=(x1, y1), point_curr=(x2, y2),
                                               **self.velocity_params)
 

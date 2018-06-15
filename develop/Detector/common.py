@@ -253,11 +253,15 @@ def get_velocity(point_prev, point_curr, time_interval):
     :param point_prev: previous point in type numpy.array \n
     :param point_curr: current point in type numpy.array \n
     :param time_interval: time interval between point_prev and point_curr
-    :return: the velocity of this point in unit 'pixel/time_interval'
+    :return: the velocity of this point in
+            format np.array((velocity x comp, velocity y comp, speed))
+            where speed is in unit 'pixel/time_interval'
     """
-    distance = ((point_prev[0] - point_curr[0]) ** 2 + (point_prev[1] - point_curr[1]) ** 2) ** 0.5
-    velocity = float(distance / time_interval)
-    return velocity
+    velocity_x = point_curr[0] - point_prev[0]
+    velocity_y = point_curr[1] - point_prev[1]
+    distance = (velocity_x ** 2 + velocity_y ** 2) ** 0.5
+    speed = float(distance / time_interval)
+    return np.array((velocity_x, velocity_y, speed))
 
 def draw_velocity_arrowedline(output_img, point_prev, point_curr, color, scale=1, thickness=1, line_type=cv.LINE_AA):
     """
