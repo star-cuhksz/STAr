@@ -68,7 +68,11 @@ class App:
         self.log_feature_points = log_helper.Log(".points_log")
         self.point_color = (0, 255, 0)
         self.trace_color = (0, 255, 0)
-        self.velocity_params = dict(color=(0, 0, 255),
+        self.downstream_velocity_params = dict(color=(0, 0, 255),
+                                    scale=10,
+                                    thickness=1,
+                                    line_type=cv.LINE_AA)
+        self.upstream_velocity_params = dict(color=(255, 0, 0),
                                     scale=10,
                                     thickness=1,
                                     line_type=cv.LINE_AA)
@@ -114,10 +118,16 @@ class App:
                     if not good_flag:
                         continue
                     self.log_feature_points.log_buffer.append((x2, y2))
-                    self.log_velocity.log_buffer.append(str(get_velocity(point_prev=(x1, y1), point_curr=(x2, y2),
-                                                      time_interval=self.detect_interval)))
-                    draw_velocity_arrowedline(output_img=vis, point_prev=(x1, y1), point_curr=(x2, y2),
-                                              **self.velocity_params)
+                    point_velocity = get_velocity(point_prev=(x1, y1), point_curr=(x2, y2),
+                                                  time_interval=self.detect_interval)
+                    self.log_velocity.log_buffer.append(str(point_velocity))
+                    # detect whether it moves upstream
+                    if point_velocity[0] < 0:
+                        draw_velocity_arrowedline(output_img=vis, point_prev=(x1, y1), point_curr=(x2, y2),
+                                                  **self.upstream_velocity_params)
+                    else:
+                        draw_velocity_arrowedline(output_img=vis, point_prev=(x1, y1), point_curr=(x2, y2),
+                                                  **self.downstream_velocity_params)
 
                 # export feature points per frame
                 self.log_feature_points.log_add(self.log_feature_points.log_buffer)
