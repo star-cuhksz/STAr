@@ -26,14 +26,14 @@ Servo sail;
 int pos_rudder = 90;
 int pos_sail = 115;
 long time, lasttime;
-//Define Variables we'll be connecting to
+// Define Variables we'll connect to
 double Setpoint, Input, Output, ini_Input;
 int Ms = 200;
-//Define the aggressive and conservative Tuning Parameters
+// Define the aggressive and conservative Tuning Parameters
 double aggKp = 4, aggKi = 0.2, aggKd = 1;
 double consKp = 1, consKi = 0.05, consKd = 0.25;
 
-//Specify the links and initial tuning parameters
+// Specify the links and initial tuning parameters
 PID myPID(&Input, &Output, &Setpoint, consKp, consKi, consKd, DIRECT);
 
 void move_rudder()
@@ -52,13 +52,13 @@ void setup()
   JY901.StartIIC();
   while (Serial.read() >= 0)
   {
-  } //clear serialbuffer
+  } // clear serial buffer
 
-  //initialize the variables we're linked to
+  // initialize the variables we're linked to
   lasttime = millis();
   Setpoint = 55;
 
-  //turn the PID on
+  // turn the PID on
   myPID.SetMode(AUTOMATIC);
   myPID.SetOutputLimits(-255, 255);
 }
@@ -72,17 +72,17 @@ void loop()
   }
   JY901.GetAngle();
   ini_Input = (float)JY901.stcAngle.Angle[2] / 32768 * 180;
-  double gap = abs(Setpoint - ini_Input); //distance away from setpoint
+  double gap = abs(Setpoint - ini_Input); // distance away from setpoint
   if (gap < 50)
-  { //we're close to setpoint, use conservative tuning parameters
+  { // we're close to the setpoint, use conservative tuning parameters
     myPID.SetTunings(consKp, consKi, consKd);
   }
   else
   {
-    //we're far from setpoint, use aggressive tuning parameters
+    // we're far from the setpoint, use aggressive tuning parameters
     myPID.SetTunings(aggKp, aggKi, aggKd);
   }
-  // To garentee the boat to turn correctly in the following two situation
+  // To garentee the boat to turn correctly in the following two situations
   if (Setpoint > 0 && ini_Input < Setpoint - 180)
   {
     Input = 360 + ini_Input;
