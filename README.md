@@ -1,5 +1,6 @@
 # ARS-WebControl
 This is the repo of Web Control group.
+
 ## Catalogue
 * [STAr](https://github.com/BrandoZhang/STAr/tree/master/STAr) :         main workshop directory.
 * [develop](https://github.com/BrandoZhang/STAr/tree/master/develop) :      test&develop directory.
@@ -8,3 +9,5 @@ This is the repo of Web Control group.
 * README.md:    redeme file.
 * Sailboat_Nomenclature.jpg : Retrieved from [实用帆船术语中英对照解析之帆船结构](http://chinasailing.com/article/show?id=337) 
 
+## Reference
+* [International Regulations for Preventing Collisions at Sea](https://en.wikipedia.org/wiki/International_Regulations_for_Preventing_Collisions_at_Sea)
