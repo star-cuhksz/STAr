@@ -8,6 +8,7 @@ xValue=1
 yValue=1
 
 def send():
+    command=(',110').encode(encoding='utf-8')
     if xValue==yValue==0:
         command=(',170').encode(encoding='utf-8')
     elif xValue==1 and yValue==1:
