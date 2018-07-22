@@ -8,9 +8,10 @@
  * when we're near setpoint and more agressive Tuning
  * Parameters when we're farther away.
  ********************************************************/
-int comInt;  
+int comInt; 
 #include <Servo.h>
 #include <PID_v1.h>
+#include <Wire.h>
 #include <JY901.h>
 #include <Adafruit_INA219.h>
 //
@@ -32,10 +33,7 @@ long time,lasttime;
 double Setpoint, Input, Output,ini_Input;
 int Ms=100;
 int turningState=0;
-float integral=0;
-//Define the aggressive and conservative Tuning Parameters
-//double aggKp=4, aggKi=0.2, aggKd=1;
-//double consKp=1, consKi=0.05, consKd=0.25;
+
 double aggKp=4, aggKi=0.2, aggKd=1;
 double consKp=1, consKi=1.5, consKd=0.25;
 
@@ -86,14 +84,17 @@ void loop()
         move_sail();
         turningState=0;
         myPID.SetNewPoint();
-        consKi=consKi+integral*0.001;
-        Serial.println(consKi);
-        integral=0;
     }
-    if(command==byte('.')){   
+    if(command==byte('s')){
+      turningState=0;   
       comInt = Serial.parseInt();     
-      pos_sail=comInt;
+      pos_sail+=comInt;
       move_sail();
+    }
+    if(command==byte('p')){   
+      Setpoint+= Serial.parseInt();   
+      turningState=0;
+      
     }
     JY901.GetAngle();
     ini_Input = (float)JY901.stcAngle.Angle[2]/32768*180;
@@ -103,11 +104,8 @@ void loop()
     {  //we're close to setpoint, use conservative tuning parameters
       if(turningState == 0){
       turningState=1;
-      pos_sail=110;
+      pos_sail=100;
       move_sail();}
-      else{
-        integral+=(Setpoint-ini_Input)*0.1;
-        }
     }
     if (gap < 20)
     {  //we're close to setpoint, use conservative tuning parameters
@@ -129,7 +127,7 @@ void loop()
       Input=ini_Input;
     }
     myPID.Compute();//the output value will be rewrite here
-    pos_rudder=84+Output*36/255;
+    pos_rudder=84+ Output*36/255;
     move_rudder();
     lasttime=time;
 //    shuntvoltage = ina219.getShuntVoltage_mV();
@@ -141,7 +139,7 @@ void loop()
 //    Serial.print(","); Serial.print(shuntvoltage);
 //    Serial.print(","); Serial.print(loadvoltage);
 //    Serial.print(","); Serial.println(current_mA);
-    Serial.println(ini_Input);
+    Serial.print(ini_Input);Serial.print(',');Serial.print(pos_rudder);Serial.print(',');Serial.print(Output);Serial.print(',');Serial.println(turningState);
 //Serial.print('b');Serial.print(pos_rudder);Serial.print('b');Serial.println(Output);
   }
 
