@@ -71,7 +71,7 @@ class App(object):
             self.selections.append((xmin, ymin, xmax, ymax))
             self.track_window = (xmin, ymin, xmax - xmin, ymax - ymin)
             self.track_windows.append((xmin, ymin, xmax - xmin, ymax - ymin))
-            self.track_box_colors = rand_color(self.track_box_colors)[1]  # pick a new color for tracking box
+            self.track_box_colors = rand_color(exist_color_list=self.track_box_colors)[1]  # pick a new color for tracking box
 
     def show_hist(self, idx):
         bin_count = self.hist_list[idx].shape[0]
@@ -80,16 +80,17 @@ class App(object):
         for i in xrange(bin_count):
             # h = int(self.hist[i])
             h = int(self.hist_list[idx][i])
-            cv.rectangle(img, (i*bin_w+2, 255), ((i+1)*bin_w-2, 255-h), (int(180.0*i/bin_count), 255, 255), -1)
-        img = cv.cvtColor(img, cv.COLOR_HSV2BGR)
+            cv.rectangle(img=img, pt1=(i*bin_w+2, 255), pt2=((i+1)*bin_w-2, 255-h),
+                         color=(int(180.0*i/bin_count), 255, 255), thickness=-1)
+        img = cv.cvtColor(src=img, code=cv.COLOR_HSV2BGR)
         cv.imshow('hist-{}'.format(idx), img)
 
     def run(self):
         while True:
             _ret, self.frame = self.cam.read()
             vis = self.frame.copy()
-            hsv = cv.cvtColor(self.frame, cv.COLOR_BGR2HSV)  # convert to HSV to reduce the influence of lightness
-            mask = cv.inRange(hsv, np.array((0., 60., 32.)), np.array((180., 255., 255.)))
+            hsv = cv.cvtColor(src=self.frame, code=cv.COLOR_BGR2HSV)  # convert to HSV to reduce the influence of lightness
+            mask = cv.inRange(src=hsv, lowerb=np.array((0., 60., 32.)), upperb=np.array((180., 255., 255.)))
 
             # if self.selection:
             #     x0, y0, x1, y1 = self.selection
@@ -140,7 +141,8 @@ class App(object):
                 for idx, track_window in enumerate(self.track_windows):
                     if track_window and track_window[2] > 0 and track_window[3] > 0:
                         self.selections[idx] = None  # FIXME: comment this line for refresh hist, however, that will lead to bad display
-                        prob = cv.calcBackProject([hsv], [0], self.hist_list[idx], [0, 180], 1)
+                        prob = cv.calcBackProject(images=[hsv], channels=[0], hist=self.hist_list[idx],
+                                                  ranges=[0, 180], scale=1)
                         prob &= mask
                         term_crit = (cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 10, 1)
                         track_box, track_window = cv.CamShift(probImage=prob, window=track_window, criteria=term_crit)
@@ -148,7 +150,7 @@ class App(object):
                         if self.show_backproj:
                             vis[:] = prob[..., np.newaxis]
                         try:
-                            cv.ellipse(vis, track_box, self.track_box_colors[idx], 2)
+                            cv.ellipse(img=vis, center=track_box, axes=self.track_box_colors[idx], angle=2)
                         except:
                             print(track_box)
 
