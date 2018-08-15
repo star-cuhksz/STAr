@@ -117,7 +117,7 @@ class App(object):
                             self.hist_list[idx] = hist.reshape(-1)  # update hist
                         except:
                             self.hist_list.append(hist.reshape(-1))  # add hist if select new
-                        # self.show_hist(idx)
+                        self.show_hist(idx)
 
                         vis_roi = vis[y0:y1, x0:x1]
                         cv.bitwise_not(vis_roi, vis_roi)
@@ -145,12 +145,12 @@ class App(object):
                                                   ranges=[0, 180], scale=1)
                         prob &= mask
                         term_crit = (cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 10, 1)
-                        track_box, track_window = cv.CamShift(probImage=prob, window=track_window, criteria=term_crit)
+                        track_box, self.track_windows[idx] = cv.CamShift(probImage=prob, window=track_window, criteria=term_crit)
 
                         if self.show_backproj:
                             vis[:] = prob[..., np.newaxis]
                         try:
-                            cv.ellipse(img=vis, center=track_box, axes=self.track_box_colors[idx], angle=2)
+                            cv.ellipse(vis, track_box, self.track_box_colors[idx], 2)
                         except:
                             print(track_box)
 
