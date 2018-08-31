@@ -24,7 +24,7 @@ from __future__ import print_function
 import numpy as np
 import cv2 as cv
 import video
-import log_helper
+import utils.log_helper as log_helper
 from common import anorm2, draw_str, get_velocity, draw_velocity_arrowedline
 
 
