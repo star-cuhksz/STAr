@@ -4,6 +4,9 @@ int comInt;
 #include <JY901.h>
 #include <Adafruit_INA219.h>
 
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BNO055.h>
+#include <utility/imumaths.h>
 
 Adafruit_INA219 ina219;
 

@@ -4,7 +4,7 @@ class PID:
     """PID Controller
     """
 
-    def __init__(self, P=4, I=0.5, D=1,minimum=-255,maximum=255,SetPoint=-100):
+    def __init__(self, P=4, I=1.5, D=2,minimum=-255,maximum=255,SetPoint=-100):
 
         self.Kp = P
         self.Ki = I
@@ -16,7 +16,7 @@ class PID:
         self.sample_time = 0
         self.current_time = time.time()
         self.last_time = self.current_time
-        self.windup_guard=30
+        self.windup_guard=120
         self.clear()
 
     def clear(self):
@@ -30,7 +30,7 @@ class PID:
 
         # Windup Guard
         self.int_error = 0.0
-        self.windup_guard = 50.0
+        self.windup_guard = 120
 
         self.output = 0.0
 
@@ -73,7 +73,7 @@ class PID:
             self.ITerm = -self.windup_guard
         elif (self.ITerm > self.windup_guard):
             self.ITerm = self.windup_guard
-
+        # print(' ITERM',self.ITerm,end=' ')
         self.DTerm = 0.0
         self.DTerm = delta_error /0.1
 
@@ -82,7 +82,7 @@ class PID:
         self.last_error = error
         
         self.output = self.PTerm + (self.Ki * self.ITerm) + (self.Kd * self.DTerm)
-        print(self.ITerm*self.Ki,self.PTerm,self.DTerm*self.Kd,end=' ')
+        # print(self.ITerm*self.Ki,self.PTerm,self.DTerm*self.Kd,end=' ')
         if self.output>self.max:
             self.output=self.max
         elif self.output<self.min:
@@ -123,3 +123,8 @@ class PID:
     def setBoundary(self,maximum,minimum):
         self.max=maximum
         self.min=minimum
+        
+    def setPerameter(self,P,I,D):
+        self.Kp=P
+        self.Ki = I
+        self.Kd = D
