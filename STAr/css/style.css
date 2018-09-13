@@ -15,6 +15,7 @@ th, td {
 	border-collapse: collapse;
 	text-align: center;
 	padding: 0.2em;
+	font-size: 1em;
 }
 .ac-container {
 	border-radius: 0.5em;
@@ -105,14 +106,16 @@ th, td {
 	border-radius: 30px;
 	color: #FFFFFF;
 	text-decoration: none;
-	font-size: 13px;
+/*	font-size: 13px;*/
+	font-size: 0.9em;
 	font-weight: 300;
 }
 h3 {
 	font-weight: 200;
 	margin: 15px 13px;
 	color: #fff;
-	font-size: 19px;
+/*	font-size: 19px;*/
+	font-size: 1.2em;
 }
 .butgroup {
 	margin: 5px;
