@@ -151,7 +151,7 @@ h3 {
 	letter-spacing: 0.08em;
 }
 #switch {
-	font-size: 0.25em;
+	font-size: 0.9em;
 }
 .info {
 	color: #FFFFFF;
@@ -287,7 +287,7 @@ div {
 	/*	font-size: 27px;*/
 	font-size: 1em;
 	/*	height: 180px;*/
-	height: 30em;
+	height: 40em;
 }
 table {
 	border-spacing: 1px;
