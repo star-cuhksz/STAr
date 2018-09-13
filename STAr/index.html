@@ -10,17 +10,10 @@
 </head>
 
 <body onLoad="Autofresh();KBCONTROL()">
-
-<div class="realtimeVideo" id="receiver123">
-If there is no image or sailboat, please email sunqinbo@cuhk.edu.cn 
-<br>
-	<img src="images/fanE_off1.png" class="fan" id="fanE" onclick="WINDE()" title="Click to turn on"/>
-	<br>
-	<img id="receiver" style="width:70em;height:63em"/>
-	<br>
-	<img src="images/fanW_off1.png" class="fan" id="fanW" onclick="WINDW()" title="Click to turn on"/>
-</div> 
-
+<div class="realtimeVideo" id="receiver123"> If there is no image or sailboat, please email sunqinbo@cuhk.edu.cn <br>
+  <img src="images/fanE_off1.png" class="fan" id="fanE" onclick="WINDE()" title="Click to turn on"/> <br>
+  <img id="receiver" style="width:70em;height:63em"/> <br>
+  <img src="images/fanW_off1.png" class="fan" id="fanW" onclick="WINDW()" title="Click to turn on"/> </div>
 <script type="text/javascript" charset="utf-8">
     var receiver_socket = new WebSocket("ws://" + "1k8c508399.imwork.net:10876");
     var image = document.getElementById('receiver');
@@ -28,18 +21,15 @@ If there is no image or sailboat, please email sunqinbo@cuhk.edu.cn
       image.src = data.data;
     }
   </script>
-  
-
 <div class="container">
   <section class="ac-container">
     <div>
       <input id="ac-1" name="accordion-1" type="checkbox" />
       <label for="ac-1">Canvas</label>
       <article class="ac-small">
-        <div class="new-canvas" id="myCanvas">
-        <img src="images/boat.png" id="mid" width="417" height="417" alt=""/>
-        <!-- Support keyboard control --> 
-<script>
+        <div class="new-canvas" id="myCanvas"> <img src="images/boat.png" id="mid" width="417" height="417" alt=""/> 
+          <!-- Support keyboard control --> 
+          <script>
     window.onload = function () {
       var current = 0;
       document.getElementById('mid').onclick = function () {
@@ -108,67 +98,36 @@ If there is no image or sailboat, please email sunqinbo@cuhk.edu.cn
           break;
         case 37:  // Press ArrowLeft
 		  HA();
-          //mid.style.left = Math.max(0, mid.offsetLeft - 5) + "px";
-          //var pageCoords = "( " + mid.style.top + ", " + mid.style.down + " )";
-          //var clientCoords = "( " + mid.style.left + ", " + mid.style.top + " )";
-          //  $( "span:first" ).text( "( position.pageX, position.pageY ) : " + pageCoords+ ","+clientCoords);
-          //$("span:last").text("( postion.clientX, position.clientY ) : " + clientCoords);
           break;
         case 38:  // Press ArrowUp
 		  HW();
-          //mid.style.top = Math.max(0, mid.offsetTop - 5) + "px";
-          //var pageCoords = "( " + mid.style.top + ", " + mid.style.down + " )";
-          //var clientCoords = "( " + mid.style.left + ", " + mid.style.top + " )";
-          //  $( "span:first" ).text( "( position.pageX, position.pageY ) : " + pageCoords+ ","+clientCoords);
-          //$("span:last").text("( postion.clientX, position.clientY ) : " + clientCoords);
           break;
         case 39:  // Press ArrowRight
 		  HD();
-          //mid.style.left = Math.min(375, mid.offsetLeft + 5) + "px";
-          //var pageCoords = "( " + mid.style.top + ", " + mid.style.down + " )";
-          //var clientCoords = "( " + mid.style.left + ", " + mid.style.top + " )";
-          //  $( "span:first" ).text( "( position.pageX, position.pageY ) : " + pageCoords+ ","+clientCoords);
-          //$("span:last").text("( postion.clientX, position.clientY ) : " + clientCoords);
           break;
         case 40:  // Press ArrowDown
 		  HS();
-          //mid.style.top = Math.min(575, mid.offsetTop + 5) + "px";
-          //var pageCoords = "( " + mid.style.top + ", " + mid.style.down + " )";
-          //var clientCoords = "( " + mid.style.left + ", " + mid.style.top + " )";
-          //$("span:last").text("( postion.clientX, position.clientY ) : " + clientCoords);
           break;
         // default:
         // need some prompt message here
       }
     }
-  </script> 
-         <div class="info">
-          <span>See here: </span><span id="test"></span>
-          <br>
-          <span>PositionX: </span><span id="positionX"></span>
-          <br>
-          <span>PositionY: </span><span id="positionY"></span>
-          <br>
-          <span>Angle: </span> <span id="angle"></span>
-          <br>
-          <div class="meter round-conner">
-            <div id="angleBar" class="round-conner"></div>
-          </div>
-          <span>Back: </span> <span id="back"></span>
-          <br>
-          <span>Back2: </span> <span id="back2"></span>
-          <br>
-          <div class="meter round-conner">
-            <div id="back2Bar" class="round-conner"></div>
-          </div>
-          <span>Fan1 &emsp; Fan2</span> 
-          <br>
-          <img src="images/fanE_off.png" class="fanC" id="fanE_C" onclick="WINDE()" title="Click to turn on"/>
-			 <span> &emsp; </span>
-		  <img src="images/fanW_off.png" class="fanC" id="fanW_C" onclick="WINDW()" title="Click to turn on"/>
-          <br>
-		<a href="javascript:void(0)" class="button" id="switch" onclick="Autofresh()">SWITCH</a>
-        </div>
+  </script>
+          <div class="info"> <span>See here: </span><span id="test"></span> <br>
+            <span>PositionX: </span><span id="positionX"></span> <br>
+            <span>PositionY: </span><span id="positionY"></span> <br>
+            <span>Angle: </span> <span id="angle"></span> <br>
+            <div class="meter round-conner">
+              <div id="angleBar" class="round-conner"></div>
+            </div>
+            <span>Back: </span> <span id="back"></span> <br>
+            <span>Back2: </span> <span id="back2"></span> <br>
+            <div class="meter round-conner">
+              <div id="back2Bar" class="round-conner"></div>
+            </div>
+            <span>Fan1 &emsp; Fan2</span> <br>
+            <img src="images/fanE_off.png" class="fanC" id="fanE_C" onclick="WINDE()" title="Click to turn on"/> <span> &emsp; </span> <img src="images/fanW_off.png" class="fanC" id="fanW_C" onclick="WINDW()" title="Click to turn on"/> <br>
+            <a href="javascript:void(0)" class="button" id="switch" onclick="Autofresh()">SWITCH</a> </div>
         </div>
       </article>
     </div>
