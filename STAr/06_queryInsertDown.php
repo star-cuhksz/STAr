@@ -14,10 +14,10 @@ $sql = "SELECT sail FROM data WHERE Id=1";
 $result = $conn->query($sql);
 $row=mysqli_fetch_array($result);
 //echo $result;
-if($row['sail']>50){
+if($row['sail']>20){
 	$temp=$row['sail']-10;
 } else{
-	$temp=50;
+	$temp=20;
 }
 echo $temp;
 $sql = "UPDATE data SET sail=$temp WHERE Id=1";
