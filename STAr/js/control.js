@@ -183,7 +183,7 @@ function WINDE(){
 		document.getElementById("fanE_C").src='../images/fanE_on.png';
       }
     }
-    xmlhttp.open("GET", "06_queryRelay31.php", true);
+    xmlhttp.open("GET", "06_queryRelay13.php", true);
     xmlhttp.send();
 }
 
