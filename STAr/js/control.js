@@ -183,7 +183,7 @@ function WINDE(){
 		document.getElementById("fanE_C").src='../images/fanE_on.png';
       }
     }
-    xmlhttp.open("GET", "06_queryRelay11.php", true);
+    xmlhttp.open("GET", "06_queryRelay31.php", true);
     xmlhttp.send();
 }
 
@@ -259,7 +259,7 @@ function WINDEC(){
 		document.getElementById("fanE_C").src='../images/fanE_off.png';
       }
     }
-    xmlhttp.open("GET", "06_queryRelay110.php", true);
+    xmlhttp.open("GET", "06_queryRelay130.php", true);
     xmlhttp.send();
 }
 
