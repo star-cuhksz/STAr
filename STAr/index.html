@@ -140,16 +140,20 @@ var _hmt = _hmt || [];
       switch (event.keyCode) {
         // 监听键盘操作
         case 87:  	// Press KeyW
-          UP();
+          //UP();
+		  DIRECU();
           break;
         case 83:  	// Press KeyS
-          DOWN();
+          //DOWN();
+		  DIRECD();
           break;
         case 65:  	// Press KeyA
-          LEFT();
+          //LEFT();
+		  DIRECL();
           break;
         case 68:  	// Press KeyD
-          RIGHT();
+          //RIGHT();
+		  DIRECR();
           break;
         case 82: 	// Press KeyR
           WINDW();	// Turn on West fan (bottom)
@@ -242,6 +246,10 @@ var _hmt = _hmt || [];
           <h3>Change environment:</h3>
           <h3 id="env_ironment"></h3>
           <a href="javascript:void(0)" class="butgroup"><a href="javascript:void(0)" class="button" onclick="LED()">LED</a> <a href="javascript:void(0)" class="button" onclick="LEDC()">LEDC</a> <a href="javascript:void(0)" class="button" onclick="WINDE()">WINDE</a> <a href="javascript:void(0)" class="button" onclick="WINDEC()">WINDEC</a></a> </div>
+		<div id="8802">
+          <h3>Change direction:</h3>
+          <h3 id="dir_ection"></h3>
+          <a href="javascript:void(0)" class="butgroup"><a href="javascript:void(0)" class="button" onclick="DIRECL()">LEFT</a> <a href="javascript:void(0)" class="button" onclick="DIRECR()">RIGHT</a> <a href="javascript:void(0)" class="button" onclick="DIRECD()">DOWN</a> <a href="javascript:void(0)" class="button" onclick="DIRECU()">UP</a></a> </div>
       </article>
     </div>
   </section>
