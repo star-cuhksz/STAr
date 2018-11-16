@@ -1,4 +1,8 @@
 <?php
+
+$dir = $_GET['dir'];
+//echo $dir;
+
 $servername = "127.0.0.1";
 $username = "root";
 $password = "root";
@@ -10,13 +14,10 @@ if($conn->connect_error){
 }
 //echo ini_set('max_execution_time','100');
 
-$sql = "SELECT D FROM data8802 WHERE Id=1";
-$result = $conn->query($sql);
-$row=mysqli_fetch_array($result);
-//echo $result;
-$temp=$row['row'];
-echo $temp;
-$sql = "UPDATE data SET sail=$temp WHERE Id=1";
+
+$temp=$dir;
+//echo $temp;
+$sql = "UPDATE data8802 SET D=$temp WHERE Id=1";
 $result = $conn->query($sql);
 $conn->close();
 ?>
