@@ -10,15 +10,11 @@ if($conn->connect_error){
 }
 //echo ini_set('max_execution_time','100');
 
-$sql = "SELECT sail FROM data WHERE Id=1";
+$sql = "SELECT D FROM data8802 WHERE Id=1";
 $result = $conn->query($sql);
 $row=mysqli_fetch_array($result);
 //echo $result;
-if($row['sail']<130){
-	$temp=$row['sail']+10;
-} else{
-	$temp=130;
-}
+$temp=$row['row'];
 echo $temp;
 $sql = "UPDATE data SET sail=$temp WHERE Id=1";
 $result = $conn->query($sql);
