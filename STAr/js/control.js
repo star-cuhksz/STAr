@@ -324,6 +324,75 @@ function REMAINEDC(){
     xmlhttp.send();
 }
 
+// Direction Control Left
+function DIRECL() {
+    var xmlhttp;
+    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    }
+    else {// code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("dir_ection").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "06_query8802D.php?dir=220", true);
+    xmlhttp.send();
+}
+
+function DIRECR() {
+    var xmlhttp;
+    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    }
+    else {// code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("dir_ection").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "06_query8802D.php?dir=60", true);
+    xmlhttp.send();
+}
+
+function DIRECD() {
+    var xmlhttp;
+    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    }
+    else {// code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("dir_ection").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "06_query8802D.php?dir=330", true);
+    xmlhttp.send();
+}
+
+function DIRECU() {
+    var xmlhttp;
+    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    }
+    else {// code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("dir_ection").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "06_query8802D.php?dir=60", true);
+    xmlhttp.send();
+}
+
 function RU(){
     // Reset the rudder angle to 0
     var xmlhttp;
