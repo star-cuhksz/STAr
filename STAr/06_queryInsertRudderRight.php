@@ -14,10 +14,10 @@ $sql = "SELECT rudder FROM data WHERE Id=1";
 $result = $conn->query($sql);
 $row=mysqli_fetch_array($result);
 //echo $result;
-if($row['rudder']>50){
+if($row['rudder']>20){
 	$temp=$row['rudder']-20;
 } else{
-	$temp=50;
+	$temp=20;
 }
 echo $temp;
 $sql = "UPDATE data SET rudder=$temp WHERE Id=1";

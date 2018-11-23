@@ -114,3 +114,4 @@ develop/.DS_Store
 develop/Detector/*.velocity_log
 develop/Detector/*.points_log
 develop/Autonomous Control/pid_test.ino/pid_test.ino.ino
+live-camera/

@@ -57,7 +57,8 @@ function SAILRESET() {
             document.getElementById("sail_angle").innerHTML = xmlhttp.responseText;
         }
     }
-    xmlhttp.open("GET", "06_querySailReset.php", true);
+	xmlhttp.open("GET", '06_queryRelayXX.php?relayY=10', true);
+    //xmlhttp.open("GET", "06_querySailReset.php", true);
     xmlhttp.send();
 }
 
@@ -114,6 +115,23 @@ function RIGHT() {
     xmlhttp.send();
 }
 
+function RELEASERUDDER() {
+    var xmlhttp;
+    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    }
+    else {// code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("rudder_angle").innerHTML = xmlhttp.responseText;
+        }
+    }
+    //xmlhttp.open("GET", "06_queryReleaseRudder.php", true);
+    xmlhttp.send();
+}
+
 function RUDDERRESET(){
     // Reset the rudder angle to 0
     var xmlhttp;
@@ -161,12 +179,13 @@ function WINDE(){
     }
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        document.getElementById("relay1").innerHTML = xmlhttp.responseText;
-		document.getElementById("fanE").src='../images/FanE_on1.png';
-		document.getElementById("fanE_C").src='../images/fanE_on.png';
+        //document.getElementById("relay1").innerHTML = xmlhttp.responseText;
+		document.getElementById("fanE").src='images/FanE_on1.png';
+		//document.getElementById("fanE_C").src='../images/fanE_on.png';
       }
     }
-    xmlhttp.open("GET", "06_queryRelay11.php", true);
+	xmlhttp.open("GET", '06_queryRelayXX.php?relayY=31', true);
+    //xmlhttp.open("GET", "06_queryRelay13.php", true);
     xmlhttp.send();
 }
 
@@ -186,7 +205,7 @@ function WINDW(){
 		document.getElementById("fanW_C").src='../images/fanW_on.png';
       }
     }
-    xmlhttp.open("GET", "06_queryRelay12.php", true);
+	xmlhttp.open("GET", "06_queryRelay12.php", true);
     xmlhttp.send();
 }
 
@@ -204,7 +223,8 @@ function LED(){
         document.getElementById("relay1").innerHTML = xmlhttp.responseText;
       }
     }
-    xmlhttp.open("GET", "06_queryRelay13.php", true);
+    xmlhttp.open("GET", '06_queryRelayXX.php?relayY=11', true);
+	//xmlhttp.open("GET", "06_queryRelay11.php", true);
     xmlhttp.send();
 }
 
@@ -237,12 +257,13 @@ function WINDEC(){
     }
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        document.getElementById("relay1").innerHTML = xmlhttp.responseText;
-		document.getElementById("fanE").src='../images/fanE_off1.png';
-		document.getElementById("fanE_C").src='../images/fanE_off.png';
+        //document.getElementById("relay1").innerHTML = xmlhttp.responseText;
+		document.getElementById("fanE").src='images/fanE_off1.png';
+		//document.getElementById("fanE_C").src='../images/fanE_off.png';
       }
     }
-    xmlhttp.open("GET", "06_queryRelay110.php", true);
+	xmlhttp.open("GET", '06_queryRelayXX.php?relayY=30', true);
+    //xmlhttp.open("GET", "06_queryRelay130.php", true);
     xmlhttp.send();
 }
 
@@ -280,7 +301,8 @@ function LEDC(){
         document.getElementById("relay1").innerHTML = xmlhttp.responseText;
       }
     }
-    xmlhttp.open("GET", "06_queryRelay130.php", true);
+	xmlhttp.open("GET", '06_queryRelayXX.php?relayY=10', true);
+    //xmlhttp.open("GET", "06_queryRelay110.php", true);
     xmlhttp.send();
 }
 
@@ -299,6 +321,75 @@ function REMAINEDC(){
       }
     }
     xmlhttp.open("GET", "06_queryRelay140.php", true);
+    xmlhttp.send();
+}
+
+// Direction Control Left
+function DIRECL() {
+    var xmlhttp;
+    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    }
+    else {// code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("dir_ection").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "06_query8802D.php?dir=220", true);
+    xmlhttp.send();
+}
+
+function DIRECR() {
+    var xmlhttp;
+    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    }
+    else {// code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("dir_ection").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "06_query8802D.php?dir=60", true);
+    xmlhttp.send();
+}
+
+function DIRECD() {
+    var xmlhttp;
+    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    }
+    else {// code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("dir_ection").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "06_query8802D.php?dir=330", true);
+    xmlhttp.send();
+}
+
+function DIRECU() {
+    var xmlhttp;
+    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    }
+    else {// code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("dir_ection").innerHTML = xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", "06_query8802D.php?dir=60", true);
     xmlhttp.send();
 }
 
