@@ -163,7 +163,7 @@ def read():
                 # print('cons')
 
             
-            print('sailboat angle',sailboat_angle,'setpoint',setpoint)
+            # print('sailboat angle',sailboat_angle,'setpoint',setpoint)
             output=control.update(sailboat_angle,setpoint)
         # send(output,sail)
 def data():
