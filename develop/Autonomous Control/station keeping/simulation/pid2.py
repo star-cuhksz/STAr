@@ -4,7 +4,7 @@ class PID:
     """PID Controller
     """
 
-    def __init__(self, P=0.8, I=0.05, D=0.5,minimum=-1,maximum=1,SetPoint=0):
+    def __init__(self, P=0.6, I=0.1, D=0.5,minimum=-1,maximum=1,SetPoint=0):
 
         self.Kp = P
         self.Ki = I
@@ -12,6 +12,8 @@ class PID:
         self.min=minimum
         self.max=maximum
         self.SetPoint=SetPoint
+        self.ITerm_max=0.3
+        self.DTerm_max=0.6
 
         self.sample_time = 0.01
         self.current_time = time.time()
@@ -21,7 +23,7 @@ class PID:
 
     def clear(self):
         """Clears PID computations and coefficients"""
-        
+    
         self.PTerm = 0.0
         self.ITerm = 0.0
         self.DTerm = 0.0
@@ -77,7 +79,7 @@ class PID:
         # print(' ITERM',self.ITerm,end=' ')
         self.DTerm = 0.0
         self.DTerm = delta_error /self.sample_time
-        if abs(self.SetPoint-newPoint)>0.2:
+        if abs(self.SetPoint-newPoint)>0.3:
             self.ITerm=0
             self.DTerm=0
             
@@ -85,14 +87,17 @@ class PID:
         # Remember last time and last error for next calculation
         # self.last_time = self.current_time
         self.last_error = error
-        
+        if self.ITerm>self.ITerm_max:
+            self.ITerm=self.ITerm_max
+        elif self.ITerm<-self.ITerm_max:
+            self.ITerm=-self.ITerm_max
         self.output = self.PTerm + (self.Ki * self.ITerm) + (self.Kd * self.DTerm)
         
         if self.output>self.max:
             self.output=self.max
         elif self.output<self.min:
             self.output=self.min
-        print(self.ITerm*self.Ki,self.PTerm,self.DTerm*self.Kd,self.output)
+        # print(self.ITerm*self.Ki,self.PTerm,self.DTerm*self.Kd,self.output)
         return self.output
 
         def setKp(self, proportional_gain):
