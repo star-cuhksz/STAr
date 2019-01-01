@@ -27,8 +27,6 @@ class sailboat:
         self.rudder=rudder       ### the positive angle is corresponding to counterclockwise
         self.sail=sail           ### the positive angle is corresponding to counterclockwise
         self.choosen_angle=0       
-        #self.jibsail=jibsail    ### to be continued
-              
         
         self.target=target    ###the center of target area[x,y]   self.dM=10,which is the radius of the pre-arrived area ,self.dT=5,which is r of target area 
         self.desired_acc=0           
@@ -43,35 +41,34 @@ class sailboat:
         self.true_wind=[5,math.pi*3/2]       ##[wind speed, direction]
         self.app_wind=[0,0]                 ##[wind speed, direction]
         self.sample_time=0.01               ##time for every single update
-        self.ks=50              ###need to be adjusted ###
-        self.aligned_p=0.1       ####need to be adjusted ##about 15 degrees of the mini sailboat
+                      ###need to be adjusted ###
+        
         
         self.q=-1               ##the parameter for tacking which is 1 or -1
         self.time=0
 
         self.rudder_controller=PID()
         self.sail_speed_controller=PID(0.1,0.01,0.05)
-        self.d=1.2
-
-        self.n=0.1
+        self.d=4
         self.if_acc=0
-        # self.if_tacking=0
-
         #this part is to add the boundary
-        target_boat_angle=math.atan2(self.target[1]-self.location[1],self.target[0]-self.location[0])
-        self.x_value=self.sign(math.cos(target_boat_angle))
-        self.y_value=self.sign(math.sin(target_boat_angle))
+        self.x_value=1
+        self.y_value=1
 
         self.flag=False
         self.if_keeping=False
-        self.keeping_state=1  ##1: before turning 2: turning 3:recover
+        self.keeping_state=1  ##1: before turning 2: turning 3:recover 4:go back
+        self.v_list=[0]*7
+        self.u_list=[0]*7
+        self.w_list=[0]*7
+
         
     ## predict the state for next moment and make decision  
     def update_state(self):
         global n
         self.time+=1
-        if self.time>1500:
-            self.flag=True
+        if self.time>3000:
+            self.flag=True  #Stop the program
 
         self.rudder_control()    
         
@@ -92,7 +89,7 @@ class sailboat:
         self.get_desired_acc(self.target[0],self.target[1])
 
 
-        if self.keeping_state!=2:
+        if self.keeping_state!=2:  
             self.choosen_angle=self.regular_angle(self.choosen_angle)
             
             self.desired_angle=self.regular_angle(self.desired_angle)
@@ -107,14 +104,15 @@ class sailboat:
                 self.rudder=-self.rudder_controller.update(choosen_angle,self.desired_angle)
                 
                 
-            ## if we desire to turn about, set the rudder to the maximum angle
-            ## this part garantee the sailboat will choose the better diretion for turning.
+            ## if we desire to turn about, set the rudder to the maximum angle, then the sailboat will choose the better diretion for turning.
             else:
                 
                 self.rudder=self.maxrudder*self.sign(math.sin(self.choosen_angle-self.desired_angle))
                 
-            if self.velocity[0]<0:
+            if self.velocity[0]<0:    
                 self.rudder=-self.rudder
+
+
             
             
 
@@ -133,9 +131,12 @@ class sailboat:
                 elif math.cos(self.true_wind[1]-self.heading_angle)<-0.73:
                     optimal_sail=self.maxsail
                 else:
-                    optimal_sail=0.3+(abs(self.heading_angle-self.true_wind[1]+math.pi)-math.pi/4)*0.75
+                    optimal_sail=0.25+(abs(self.heading_angle-self.true_wind[1]+math.pi)-math.pi/4)*0.75
                 # optimal_sail=abs(math.pi/4*(math.cos(self.true_wind[1]-self.desired_angle)+1))
-                sail=(optimal_sail+self.maxsail)/2-(self.desired_v-self.velocity[0])*0.8
+                if self.desired_v>self.velocity[0]:
+                    sail=optimal_sail
+                else:
+                    sail=(optimal_sail+self.maxsail)/2-(self.desired_v-self.velocity[0])*0.8
                 self.sail=min(self.maxsail,max(sail,0))
 
 
@@ -145,7 +146,7 @@ class sailboat:
     def sail_regular_control(self):
         global optimal_sail,limit_sail,obtained_angle   
         ##not that angular accelaration of the sail instead of the boat
-        angular_acc=-self.ks*self.desired_acc
+        angular_acc=-50*self.desired_acc
         obtained_angle=max(angular_acc/self.frequency+abs(self.sail),0)###the angle of sail
        
         ### if we want the sailboat to speed up, we choose the optimal angle
@@ -156,7 +157,7 @@ class sailboat:
             elif math.cos(self.true_wind[1]-self.heading_angle)<-0.73:
                 optimal_sail=self.maxsail
             else:
-                optimal_sail=0.45+(abs(self.heading_angle-self.true_wind[1]+math.pi)-math.pi/4)*0.65
+                optimal_sail=0.25+(abs(self.heading_angle-self.true_wind[1]+math.pi)-math.pi/4)*0.7
             
             
             self.sail=min(self.maxsail,max(obtained_angle,abs(optimal_sail)))
@@ -194,7 +195,7 @@ class sailboat:
                 self.q=-1
         else:
             if distance_st>self.dM:
-                if self.location[0]<0.8:
+                if self.location[0]<1.6:
                     self.x_value=1
                 
                 elif self.location[0]>5:
@@ -202,7 +203,7 @@ class sailboat:
                 if self.location[1]<2:
                     self.y_value=1
                 
-                elif self.location[1]>8:
+                elif self.location[1]>6:
                     self.y_value=-1
             ##if exceeding the dead angle,change the desired angle
                 # self.desired_angle=self.true_wind[1]+math.pi+self.q*(math.pi/2-dead_angle)
@@ -236,32 +237,35 @@ class sailboat:
             else:
                 self.desired_angle=self.regular_angle(self.true_wind[1]+math.pi*0.7)
 
-            if abs(self.velocity[0]-self.desired_v)<0.05:
+            if abs(self.velocity[0]-self.desired_v)<0.1:
                 self.keeping_state=2
+                print('state 2')
                 initial_heading_sign=self.sign(math.sin(self.true_wind[1]-self.heading_angle))
                 ## 1:lefthand side   2:righthand
 
         elif self.keeping_state==2:
             self.rudder=self.maxrudder*self.sign(math.sin(self.heading_angle-self.desired_angle))
-            if self.velocity[0]<0.05 or abs(self.regular_angle(self.heading_angle+math.pi)-self.true_wind[1])<0.1:
+            if self.velocity[0]<0.05 or abs(self.regular_angle(self.heading_angle+math.pi)-self.true_wind[1])<0.05:
                 self.keeping_state=3
                 if self.velocity[0]<0.05 and abs(self.regular_angle(self.heading_angle+math.pi)-self.true_wind[1])>0.15:
                     self.d+=0.1
-                elif abs(self.regular_angle(self.heading_angle+math.pi)-self.true_wind[1])<0.1 and self.velocity[0]>0.1:
+                elif abs(self.regular_angle(self.heading_angle+math.pi)-self.true_wind[1])<0.05 and self.velocity[0]>0.15:
                     self.d-=0.1
-                print(self.d)
+                print('State 3 parameter D',self.d)
 
         
         elif self.keeping_state==3:
             self.desired_angle=self.regular_angle(self.true_wind[1]-math.pi)
             if self.location[1]<self.target[1]:
                 self.keeping_state=1
+                print('state 1')
         
         elif self.keeping_state==4:
             target=[self.target[0]+math.cos(self.true_wind[1])*self.dT,self.target[1]+math.sin(self.true_wind[1])*self.dT]
             self.desired_angle=math.atan2(target[1]-self.location[1],target[0]-self.location[0])
             if distance_st*math.cos(self.true_wind[1]-boat_to_target_angle)<0:
                 self.keeping_state=1
+                print('State 1')
             
     # def keeping(self):
     #     boat_to_target_angle=math.atan2(target_y-self.location[1],target_x-self.location[0])
@@ -313,17 +317,38 @@ class sailboat:
         self.location[0]=x
         self.location[1]=y
         self.heading_angle=heading_angle
+        self.get_velocity(x,last_x,y,last_y,heading_angle,last_heading)
+        self.course_angle=math.atan2(self.location[1]-last_y,self.location[0]-last_x)
+    
+    def get_velocity(self,x,last_x,y,last_y,heading_angle,last_heading):
         del_x=x-last_x
         del_y=y-last_y
 
-        self.velocity[0]=(del_x*math.cos(self.heading_angle)+del_y*math.sin(self.heading_angle))*self.frequency
-        self.velocity[1]=(-del_x*math.sin(self.heading_angle)+del_y*math.cos(self.heading_angle))*self.frequency
-        self.angular_velocity=(heading_angle-last_heading)*self.frequency
-        # print(g_s*(self.p6-self.p7*math.cos(self.sail)),-g_rv*self.p8*math.cos(self.rudder),self.p3*self.angular_velocity*self.velocity[0])
-        
-        # print('location',self.location,'heading',self.heading_angle,'velocity',self.velocity)
-        self.course_angle=math.atan2(self.location[1]-last_y,self.location[0]-last_x)
-    
+        v=(del_x*math.cos(self.heading_angle)+del_y*math.sin(self.heading_angle))*self.frequency
+        u=(-del_x*math.sin(self.heading_angle)+del_y*math.cos(self.heading_angle))*self.frequency
+        w=(heading_angle-last_heading)*self.frequency
+        self.v_list.pop(0)
+        if abs(v)>3:
+            v=self.v_list[5]
+        self.v_list.append(v)
+        self.u_list.pop(0)
+        if abs(u)>1:
+            u=self.u_list[4]
+        self.u_list.append(u)
+        self.w_list.pop(0)
+        if abs(w)>3.5:
+            w=self.w_list[4]
+        self.w_list.append(w)
+        self.velocity[0]=0
+        self.velocity[1]=0
+        self.angular_velocity=0
+        for i in range (0,7):
+            self.velocity[0]+=self.v_list[i]/7
+            self.velocity[1]+=self.u_list[i]/7
+            self.angular_velocity+=self.w_list[i]/7
+        # print(self.velocity[0],self.v_list)
+
+
     def step2(self,target_x,target_y,boat_to_target_angle):
         distance_st=math.sqrt(pow(target_y-self.location[1],2)+pow(target_x-self.location[0],2))
 
@@ -370,7 +395,7 @@ class sailboat:
         ### tack only if the speed is sufficient
         if math.cos(last_angle-self.true_wind[1])+math.cos(self.desired_angle-self.true_wind[1])<0 and math.cos(last_angle-self.true_wind[1])>-0.8:
             
-            if self.sign(math.sin(self.desired_angle-self.true_wind[1]))!=self.sign(math.sin(last_angle-self.true_wind[1])) and self.velocity[0]<0.6:
+            if self.sign(math.sin(self.desired_angle-self.true_wind[1]))!=self.sign(math.sin(last_angle-self.true_wind[1])) and self.velocity[0]<0.3:
                 
                 self.desired_angle=self.true_wind[1]*2-self.desired_angle
                 

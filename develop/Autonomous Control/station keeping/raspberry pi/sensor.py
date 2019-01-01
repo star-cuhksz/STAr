@@ -38,7 +38,9 @@ def sensor():
             
         ina.configure()
         print('Current Sensor Configured Successfully')
-        while True:            
+        sensor_times=0
+        while True:   
+            sensor_times=(sensor_times+1)%5         
             frequency=gl.get_value('frequency')
             if gl.get_value('flag'):
                 #print('Breaking loop')
@@ -59,7 +61,8 @@ def sensor():
                 timevalue = float('{0:.1f}'.format(time.time()-start)) # Elapsed time in Seconds with 1 decimal point floating number 
                 headingvalue = float('{0:.2f}'.format(gl.get_value('heading_angle')))
                 DataPoints.append([timevalue, ruddervalue, sailvalue, gl.get_value('x'),gl.get_value('y'),gl.get_value('desired_angle'), headingvalue,currentvalue, voltagevalue, powervalue,gl.get_value('v'),gl.get_value('u'),gl.get_value('w')]) # Updating DataPoints Array
-                print('current:',currentvalue,'voltage',voltagevalue)
+                if sensor_times==0:
+                    print('current:',currentvalue,'voltage',voltagevalue)
             except DeviceRangeError:
                 print('Device Range Error')
 

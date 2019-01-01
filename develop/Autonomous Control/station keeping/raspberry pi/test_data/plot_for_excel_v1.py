@@ -66,7 +66,7 @@ class visualazation():
                                     [1.5*math.sin(self.heading_angle)*self.boat_size,1.5*math.sin(self.heading_angle)+math.sin(self.desired_angle)*self.boat_size])
     
     def initialize_parameter(self):
-        self.workbook = xlrd.open_workbook('201812311624.xlsx')
+        self.workbook = xlrd.open_workbook('test201812301941.xlsx')
         self.table=self.workbook.sheets()[0]
         self.x=self.table.cell(3,3).value
         self.y=self.table.cell(3,4).value
@@ -83,7 +83,7 @@ class visualazation():
         self.dT=1
         self.dM=1.8
         self.true_wind=[0,-5]
-        self.display_rate=2
+        self.display_rate=6
 
     def initialize_window_frame(self):
         self.window_y_data=np.array([0,2.5,2.5,2.5,5,5])
@@ -190,12 +190,16 @@ class visualazation():
     def get_v_u_w(self,t):
         
         
+        del_x=self.table.cell(t+4,3).value-self.x
+        del_y=self.table.cell(t+4,4).value-self.y
         
-        
-        self.v=self.table.cell(t+4,11).value
-        self.u=self.table.cell(t+4,12).value
-        self.w=self.table.cell(t+4,13).value
-        
+        self.v=(del_x*math.cos(self.heading_angle)+del_y*math.sin(self.heading_angle))/0.1/self.display_rate
+        self.u=(-del_x*math.sin(self.heading_angle)+del_y*math.cos(self.heading_angle))/0.1/self.display_rate 
+        self.w=(self.table.cell(t+4,6).value-self.heading_angle)/0.1/self.display_rate
+        if math.sqrt(pow(self.target[1]-self.y,2)+pow(self.target[0]-self.x,2))<self.dT:
+            self.v*=2
+            self.u*=2
+            self.w*=2
 
     def updata_state(self,t):
         self.x=self.table.cell(t+4,3).value

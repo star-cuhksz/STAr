@@ -40,12 +40,8 @@ def run():
     last_rudder_value=0
     last_sail_value=0
     while True:
-        times+=1
+        times=(times+1)%10
         
-        
-        # data = conn.recv(BUFFER_SIZE)
-        # ReceivedData = str(data.decode('utf-8'))
-        frequency=gl.get_value('frequency')/2
         if my_boat.flag==True:
             gl.set_value('flag',True)
             print('Quit from the Manual Control Mode')
@@ -54,27 +50,33 @@ def run():
             gl.set_value('frequency',20)
         else:
             gl.set_value('frequency',10)
+        
+        frequency=gl.get_value('frequency')
+        
+        
         x=gl.get_value('x')
         y=gl.get_value('y')
         heading_angle=gl.get_value('heading_angle')
-        my_boat.updata_pos(x,y,heading_angle)
         my_boat.frequency=frequency
+        my_boat.updata_pos(x,y,heading_angle)
+        
+        
         
         rudder,sail,desired_angle=my_boat.update_state()
         rudder= float('{0:.1f}'.format(rudder))
         sail= float('{0:.1f}'.format(sail))
         rudder_output=1500-rudder*600
-        sail_output=900+sail*600
-        if sail_output>1700:
-            sail_output=1700
-        if sail_output<900:
-            sail_output=900
+        sail_output=950+sail*612
+        if sail_output>1750:
+            sail_output=1750
+        if sail_output<950:
+            sail_output=950
         # print(sail)
-        if times%(frequency)!=0:
+        if times%3 ==1:
             if last_rudder_value!=rudder:
                 print('rudder',rudder)
                 pi.set_servo_pulsewidth(ESC3,rudder_output)
-        else: 
+        elif times%5 ==0: 
             if last_sail_value!=sail:
                 print('sail',sail)
                 pi.set_servo_pulsewidth(ESC4,sail_output) 
@@ -82,9 +84,12 @@ def run():
         last_rudder_value=rudder
         last_sail_value=sail
 
+
+
         v=my_boat.velocity[0]
         u=my_boat.velocity[1]
         w=my_boat.angular_velocity
+        
         gl.set_value('v',v)
         gl.set_value('u',u)
         gl.set_value('w',w)

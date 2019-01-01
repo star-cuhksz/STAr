@@ -74,7 +74,9 @@ def IMU():
     try: 
         
         last_heading_angle=0
+        IMU_times=0
         while True:
+            IMU_times=(IMU_times+1)%5
             frequency=gl.get_value('frequency')
             
             if gl.get_value('flag'):
@@ -91,12 +93,10 @@ def IMU():
                 #gl.set_value('heading_angle',heading_angle) # Shared the heading_angle information
             gl.set_value('heading_angle',heading_angle)
             last_heading_angle=heading_angle
-                # Print everything out.
-            print('heading_angle = {0:0.2F}'.format(heading_angle))
+            if IMU_times==0:
+                print('heading_angle = {0:0.2F}'.format(heading_angle))
                 
-                #newTime = time.clock()
-                #stime = np.append(stime,newTime)
-                #sheading_angle = np.append(sheading_angle,heading_angle)
+                
             time.sleep(1/frequency)
             
 

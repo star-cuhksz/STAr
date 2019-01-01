@@ -47,9 +47,9 @@ for i in range(33):
     # else:
     #     pi.set_servo_pulsewidth(ESC3,1500)
     i=i%11
-    pi.set_servo_pulsewidth(ESC4,1700)
-    time.sleep(1.5)
-
+    pi.set_servo_pulsewidth(ESC4,1750)
+    time.sleep(0.5)
+print('Done')
 # while True:
     
 #     direction=input('please input direction')
