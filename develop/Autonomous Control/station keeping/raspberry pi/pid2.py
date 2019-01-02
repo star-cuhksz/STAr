@@ -1,3 +1,11 @@
+'''
+Updated on THU DEC 28 9:13:48 2018
+
+@author: Zeyuan Feng
+
+The parameters of PID object are for the angle in rads instead of in degrees.
+To use it, you can call the method update(current angle, goal angle) and get the output (rudder angle).
+'''
 import time
 
 class PID:

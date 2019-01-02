@@ -43,16 +43,10 @@ def sensor():
             sensor_times=(sensor_times+1)%5         
             frequency=gl.get_value('frequency')
             if gl.get_value('flag'):
-                #print('Breaking loop')
-                # Break when flag = True
+                
                 break
             
-            
-            #print('Bus Voltage: %.3f V' % ina.voltage())
-
             try:
-                #print('Bus Current: %.3f mA' % ina.current())
-                #print('Power: %.3f mW' % ina.power())
                 ruddervalue= float('{0:.2f}'.format(gl.get_value('rudder')))
                 sailvalue= float('{0:.2f}'.format(gl.get_value('sail')))
                 currentvalue = round((a*ina.current())+b) # Rounding off values to nearest integer

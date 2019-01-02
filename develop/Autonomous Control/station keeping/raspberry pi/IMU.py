@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-# -*- coding: utf-8 -*-
 """
 Created on Tue May 15 10:43:44 2018
-
-@author: CUHKSZ
+When this program starts, the heading angle will be 0 degree. 
+To solve, the noise of IMU.
+@author: Feng Zeyuan
 """
 
 import sys
@@ -16,8 +16,6 @@ from Adafruit_BNO055 import BNO055
 
 
 def IMU():
-    
-    
         # Raspberry Pi configuration with serial UART and RST connected to GPIO 7:
     bno = BNO055.BNO055(rst=7)
         
@@ -69,6 +67,7 @@ def IMU():
     print('Accelerometer Calibration Status = ', int(accellro))
     print('Magnetometer Calibration Status = ', int(magno))
     time.sleep(2)
+    ### set reference heading angle
     reference_heading, roll, pitch = bno.read_euler()
     print('ref',reference_heading)
     try: 
@@ -105,6 +104,8 @@ def IMU():
 
     print('IMU Loop Ended \n')
 
+## the unit of angle will be rad and the value will be referred to the reference heading angle.
+## Sometimes there is a noise (usually about 2000°), it will be ignored
 def regular_angle(angle,last_angle,reference_heading):
     if angle < 0 or angle > 360:
         return -last_angle

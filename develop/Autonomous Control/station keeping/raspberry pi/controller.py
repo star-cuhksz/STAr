@@ -1,3 +1,15 @@
+"""
+Updated on FRI DEC 29 13:56:39 2018
+
+@author: Zeyuan Feng
+
+@contributor: fahah & Lianxin Zhang
+
+*Get the command from sailboat object.
+*Execute the command
+*Update the global values
+"""
+
 import time
 import os
 import pigpio
@@ -44,34 +56,39 @@ def run():
         
         if my_boat.flag==True:
             gl.set_value('flag',True)
-            print('Quit from the Manual Control Mode')
+            print('Program stops!')
             break
+
+        ## change the frequency of communication when the sailboat arrives at its target area
         if my_boat.if_keeping==True:
             gl.set_value('frequency',20)
         else:
             gl.set_value('frequency',10)
-        
         frequency=gl.get_value('frequency')
         
-        
+        ##get information of sailboat
         x=gl.get_value('x')
         y=gl.get_value('y')
         heading_angle=gl.get_value('heading_angle')
         my_boat.frequency=frequency
         my_boat.updata_pos(x,y,heading_angle)
+        v=my_boat.velocity[0]
+        u=my_boat.velocity[1]
+        w=my_boat.angular_velocity
         
-        
-        
+        ##control the rudder and sail
         rudder,sail,desired_angle=my_boat.update_state()
         rudder= float('{0:.1f}'.format(rudder))
         sail= float('{0:.1f}'.format(sail))
         rudder_output=1500-rudder*600
         sail_output=950+sail*612
+        
         if sail_output>1750:
             sail_output=1750
         if sail_output<950:
             sail_output=950
-        # print(sail)
+
+        ## To prevent the high current leading to a breakdown, the rudder and sail are controlled saperately.
         if times%3 ==1:
             if last_rudder_value!=rudder:
                 print('rudder',rudder)
@@ -84,12 +101,7 @@ def run():
         last_rudder_value=rudder
         last_sail_value=sail
 
-
-
-        v=my_boat.velocity[0]
-        u=my_boat.velocity[1]
-        w=my_boat.angular_velocity
-        
+        #change the global variables
         gl.set_value('v',v)
         gl.set_value('u',u)
         gl.set_value('w',w)

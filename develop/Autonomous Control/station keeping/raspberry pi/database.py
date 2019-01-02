@@ -1,3 +1,10 @@
+"""
+Created on Fri DEC 29 13:37:45 2018
+
+@author: Zeyuan Feng
+
+Read data from database
+"""
 import pymysql
 import time
 import re

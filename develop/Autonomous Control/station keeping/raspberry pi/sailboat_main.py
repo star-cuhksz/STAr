@@ -4,6 +4,8 @@ Created on FRI DEC 28 14:29:21 2018
 @author: Zeyuan Feng
 
 @contributor: fahah & Lianxin Zhang
+
+Main program for station keeping. 
 """
 
 

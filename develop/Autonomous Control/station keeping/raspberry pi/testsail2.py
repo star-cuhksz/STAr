@@ -1,3 +1,12 @@
+"""
+Updated on Wed JAN 2 11:05:41 2019
+
+@author: Zeyuan Feng
+
+@contributor: fahah & Lianxin Zhang
+
+You can use it to loose sail (PWM1750) before mounting the lid.
+"""
 import os
 import pigpio
 import RPi.GPIO as gpio
@@ -36,49 +45,20 @@ dc =  55 # 0 ~ 50  anticlockwise, 55~99clockwise
 
 #pi = pigpio.pi()
 #pi.set_servo_pulsewidth(servo,1500) #900~1700,  900 loosen, 1700 tighten
-for i in range(33):
-    # if i%10==0:
-    #     pi.set_servo_pulsewidth(ESC3,1900)
-    # elif i%10==1:
-    #     pi.set_servo_pulsewidth(ESC3,1650)
-
-    # elif i%10==5:
-    #     pi.set_servo_pulsewidth(ESC3,1100)
-    # else:
-    #     pi.set_servo_pulsewidth(ESC3,1500)
-    i=i%11
-    pi.set_servo_pulsewidth(ESC4,1750)
-    time.sleep(0.5)
-print('Done')
-# while True:
+while True:
+    a=input('input PWM')
+    if a =='q':
+        break
+    try:
+        a=int(a)
+        if 950<=a and a<=1750:
+            pi.set_servo_pulsewidth(ESC4,1750)
+            time.sleep(0.5)
+            print('Done')
+        else:
+            print('950<PWM<1750')
+    except:
+        print('PWM should be an integer')
     
-#     direction=input('please input direction')
     
-#     run_time=float(input('please input time'))
-#     d=0
-#     if direction== 'a':
-#         dc=0
-#         d=-1
-#     elif direction== 'c':
-#         dc=55
-#         d=1
-#     elif direction== 'q':
-#         break
-#     output=1250+d*400
-#     output=int(input('please input pwm'))
-#     output2=int(input('please input pwm2'))
-#     # p = gpio.PWM(pin, 725) # channel, frequency    # when dc=50, freq = 725 anticlockwise and freq=726 clockwise
-    
-#     #
-
-#     # pi.set_servo_pulsewidth(ESC3,rudder_output)
-#     pi.set_servo_pulsewidth(ESC4,output)
-#     time.sleep(run_time)
-#     pi.set_servo_pulsewidth(ESC4,output2)
-#     time.sleep(run_time)
-#     pi.set_servo_pulsewidth(ESC4,1250)
-#     # p = gpio.PWM(pin, 900)
-# #a = input('please type any key. ')
-
-# p.stop()
-# gpio.cleanup()
+print('program stops')

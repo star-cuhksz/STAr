@@ -1,3 +1,14 @@
+"""  
+Updated on Sun DEC 31 11:49:51 2018
+
+@author: Zeyuan Feng
+
+  
+To use it, you should put the Excel file into the same folder.
+Change the name and display rate in initialize_parameter method.
+"""
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
