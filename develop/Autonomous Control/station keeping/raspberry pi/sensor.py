@@ -40,7 +40,7 @@ def sensor():
         print('Current Sensor Configured Successfully')
         sensor_times=0
         while True:   
-            sensor_times=(sensor_times+1)%5         
+            sensor_times=(sensor_times+1)%10         
             frequency=gl.get_value('frequency')
             if gl.get_value('flag'):
                 
@@ -54,7 +54,7 @@ def sensor():
                 powervalue = round(currentvalue*voltagevalue)
                 timevalue = float('{0:.1f}'.format(time.time()-start)) # Elapsed time in Seconds with 1 decimal point floating number 
                 headingvalue = float('{0:.2f}'.format(gl.get_value('heading_angle')))
-                DataPoints.append([timevalue, ruddervalue, sailvalue, gl.get_value('x'),gl.get_value('y'),gl.get_value('desired_angle'), headingvalue,currentvalue, voltagevalue, powervalue,gl.get_value('v'),gl.get_value('u'),gl.get_value('w')]) # Updating DataPoints Array
+                DataPoints.append([timevalue, ruddervalue, sailvalue, gl.get_value('x'),gl.get_value('y'),gl.get_value('desired_angle'), headingvalue,currentvalue, voltagevalue, powervalue,gl.get_value('v'),gl.get_value('u'),gl.get_value('w'),gl.get_value('keeping_state'),gl.get_value('tacking_state')]) # Updating DataPoints Array
                 if sensor_times==0:
                     print('current:',currentvalue,'voltage',voltagevalue)
             except DeviceRangeError:
@@ -66,12 +66,12 @@ def sensor():
         print('Exception Occurred, Current Sensor Stopped \n')
 
     
-    Wt = input('Do you want to store the sensor values Y/N? ')
+    # Wt = input('Do you want to store the sensor values Y/N? ')
 
-    if Wt == 'Y':
-        writing(DataPoints)
-    else:
-        print('Ending without saving sensor data \n')
+    # if Wt == 'Y':
+    writing(DataPoints)
+    # else:
+    #     print('Ending without saving sensor data \n')
 
     print('Sensor Stopped!\n')
 #------------------------------------------------
@@ -99,6 +99,8 @@ def writing(Data):
     worksheet.write('L1', 'v', bold)
     worksheet.write('M1', 'u', bold)
     worksheet.write('N1', 'w', bold)
+    worksheet.write('O1', 'Keeping State', bold)
+    worksheet.write('P1',"tacking State",bold)
     worksheet.write('K1', 'Start Time', bold)
     worksheet.write('K2', runDate)
     worksheet.write('K3', target)
@@ -114,7 +116,7 @@ def writing(Data):
 
     print('Writing Data into Worksheet')
         
-    for Time, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12 in (Data):
+    for Time, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14 in (Data):
         # Writing Data in XLSX file
             
         worksheet.write(row, col, Time)
@@ -130,6 +132,8 @@ def writing(Data):
         worksheet.write(row, col+11, value10)
         worksheet.write(row, col+12, value11)
         worksheet.write(row, col+13, value12)
+        worksheet.write(row, col+14, value13)
+        worksheet.write(row, col+15, value14)
         row += 1
 
     

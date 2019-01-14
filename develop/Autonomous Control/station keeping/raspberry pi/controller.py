@@ -14,7 +14,7 @@ import time
 import os
 import pigpio
 import globalvar as gl
-from sailboat_for_controller_v2 import sailboat
+from sailboat_for_simulator_v1 import sailboat
 import math
 os.system('sudo killall -9 pigpiod')
 os.system('sudo pigpiod')
@@ -56,7 +56,9 @@ def run():
         
         if my_boat.flag==True:
             gl.set_value('flag',True)
+            pi.set_servo_pulsewidth(ESC4,1750) 
             print('Program stops!')
+            print(my_boat.d)
             break
 
         ## change the frequency of communication when the sailboat arrives at its target area
@@ -75,46 +77,52 @@ def run():
         v=my_boat.velocity[0]
         u=my_boat.velocity[1]
         w=my_boat.angular_velocity
+        # tacking_state=my_boat.tacking_state
+        keeping_state=my_boat.keeping_state
         
         ##control the rudder and sail
         rudder,sail,desired_angle=my_boat.update_state()
         rudder= float('{0:.1f}'.format(rudder))
         sail= float('{0:.1f}'.format(sail))
-        rudder_output=1500-rudder*600
-        sail_output=950+sail*612
+        rudder_output=1500-rudder*720
+        sail_output=1000+sail*573.4
+        if math.sin(heading_angle-math.pi/2)<0:
+            sail_output=950+(sail_output-1000)*9/7.5
         
-        if sail_output>1750:
-            sail_output=1750
-        if sail_output<950:
-            sail_output=950
+        # if sail_output>1750:
+        #     sail_output=1750
+        # if sail_output<950:
+        #     sail_output=950
 
         ## To prevent the high current leading to a breakdown, the rudder and sail are controlled saperately.
-        if times%3 ==1:
-            if last_rudder_value!=rudder:
-                print('rudder',rudder)
-                pi.set_servo_pulsewidth(ESC3,rudder_output)
-        elif times%5 ==0: 
-            if last_sail_value!=sail:
-                print('sail',sail)
-                pi.set_servo_pulsewidth(ESC4,sail_output) 
+        if times%3 ==0:
+            # if last_rudder_value!=rudder:
+            print('rudder',rudder)
+            pi.set_servo_pulsewidth(ESC3,rudder_output)
+        elif times%3 ==2: 
+            # if last_sail_value!=sail:
+            print('sail',sail,'desired_angle',desired_angle)
+            pi.set_servo_pulsewidth(ESC4,sail_output) 
         
         last_rudder_value=rudder
         last_sail_value=sail
 
         #change the global variables
+        gl.set_value('tacking_state',my_boat.tacking_state)
         gl.set_value('v',v)
         gl.set_value('u',u)
         gl.set_value('w',w)
         gl.set_value('rudder',rudder) # PWM for Motor1
         gl.set_value('sail',sail) # PWM for Motor2
         gl.set_value('desired_angle',desired_angle)
+        gl.set_value('keeping_state',keeping_state)
 
         time.sleep(1/frequency)
     
     # End the program        
     
-    pi.set_servo_pulsewidth(ESC3,angle) # Rudder Straight
-    pi.set_servo_pulsewidth(ESC4,900) # Sails Tighten
+    pi.set_servo_pulsewidth(ESC3,1500) # Rudder Straight
+    pi.set_servo_pulsewidth(ESC4,1750) # Sails Tighten
     print('Motors Stopped \n')
     time.sleep(0.4)
     pi.stop()
