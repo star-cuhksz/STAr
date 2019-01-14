@@ -1,10 +1,18 @@
+'''
+Updated on THU DEC 28 9:13:48 2018
+
+@author: Zeyuan Feng
+
+The parameters of PID object are for the angle in rads instead of in degrees.
+To use it, you can call the method update(current angle, goal angle) and get the output (rudder angle).
+'''
 import time
 
 class PID:
     """PID Controller
     """
 
-    def __init__(self, P=0.6, I=0.1, D=0.5,minimum=-1,maximum=1,SetPoint=0):
+    def __init__(self, P=0.45, I=0.2, D=0.3,minimum=-0.7,maximum=0.7,SetPoint=0):
 
         self.Kp = P
         self.Ki = I
@@ -12,10 +20,10 @@ class PID:
         self.min=minimum
         self.max=maximum
         self.SetPoint=SetPoint
-        self.ITerm_max=0.3
-        self.DTerm_max=0.6
+        self.ITerm_max=0.25
+        self.DTerm_max=0.4
 
-        self.sample_time = 0.01
+        self.sample_time = 0.1
         self.current_time = time.time()
         self.last_time = self.current_time
         self.windup_guard=120
@@ -91,6 +99,10 @@ class PID:
             self.ITerm=self.ITerm_max
         elif self.ITerm<-self.ITerm_max:
             self.ITerm=-self.ITerm_max
+        if self.DTerm>self.DTerm_max:
+            self.DTerm=self.DTerm_max
+        elif self.DTerm<-self.DTerm_max:
+            self.DTerm=-self.DTerm_max
         self.output = self.PTerm + (self.Ki * self.ITerm) + (self.Kd * self.DTerm)
         
         if self.output>self.max:
