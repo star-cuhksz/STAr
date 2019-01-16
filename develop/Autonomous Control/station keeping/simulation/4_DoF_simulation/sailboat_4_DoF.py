@@ -68,7 +68,7 @@ class sailboat:
 
         self.rudder_controller=PID()
 
-        self.d=2.3
+        self.d=3.5
         
         #this part is to add the boundary
         
@@ -89,7 +89,7 @@ class sailboat:
         self.if_force_turning=False
         self.tacking_angle=0
         self.go_to_center_start_time=0
-        self.go_to_center_angle=0.3
+        self.go_to_center_angle=0.5
         
         
     ## predict the state for next moment and make decision  
@@ -144,8 +144,8 @@ class sailboat:
                 
                 self.rudder=self.maxrudder*self.sign(math.sin(self.heading_angle-self.desired_angle))
                 
-            if self.velocity[0]<-0.1:    
-                self.rudder=-self.rudder
+        if self.velocity[0]<-0.02:    
+            self.rudder=-self.rudder
         
     
     def sail_control(self):
@@ -171,7 +171,7 @@ class sailboat:
                     self.sail=self.maxsail
         elif self.tacking_state=='is tacking':
             self.sail=self.maxsail
-        elif self.if_force_turning:
+        elif self.if_force_turning==True:
             self.sail=self.maxsail
         else:
             self.sail_regular_control()
@@ -270,7 +270,7 @@ class sailboat:
                     ###Yes, it's a tacking!
                     # print('Yes, it is a tacking!')
                 
-                    self.desired_v=2.7*0.3*abs(math.pi/2-self.heading_angle)/2/math.tan(self.maxrudder)
+                    self.desired_v=3.5*0.3*abs(math.pi/2-self.heading_angle)/2/math.tan(self.maxrudder)
                     # print(self.desired_v)
                     if self.velocity[0]>self.desired_v:
                         ## I can tack
@@ -318,7 +318,7 @@ class sailboat:
             self.next_desired_angle=self.sign(math.sin(self.true_wind[1]-self.next_desired_angle))*0.98+math.pi/2
         # print(self.next_desired_angle,self.true_wind)
     def force_to_turn_when_hit_the_boundary(self):
-        if self.location[0]>0.3 and self.location[0]<5.6 and self.location[1]>-3 and self.location[1]<7.3:
+        if self.location[0]>1.3 and self.location[0]<5.6 and self.location[1]>-3 and self.location[1]<7.3:
             print('',end='')
         else:
             if self.location[0]<2:
@@ -328,20 +328,6 @@ class sailboat:
             
             ## turn to downwind direction
             self.if_force_turning=True
-         
-    # start_accelerate_x=0
-    # accelerate_x_distance=0
-    # start_accelerate_y=0
-    # accelerate_y_distance=0
-    # start_accelerate_x=0
-    # accelerate_x_distance=0
-    # start_accelerate_y=0
-    # accelerate_y_distance=0
-    # def distance_recorder(self):
-    #     global tacking_distance
-
-    # def if_distance_enough(self):
-
 
 
     def keeping_in_target_area(self):
