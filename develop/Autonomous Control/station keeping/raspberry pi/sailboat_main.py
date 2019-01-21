@@ -13,7 +13,7 @@ import time
 # import tcpserver
 import globalvar as gl
 import threading
-import controller
+import controller_4_DoF
 # import RPi.GPIO as GPIO
 import IMU
 import sensor
@@ -32,10 +32,13 @@ if __name__ == "__main__":
     # g1.set_value('target',[0,0]) 
     gl.set_value('x',0)
     gl.set_value('y',0)
+    gl.set_value('roll',0)
+    gl.set_value('keeping_state',1)
+    gl.set_value('tacking_state','not')
     
     # conn = tcpserver.tcpserver()
     
-    t1 = threading.Thread(target= controller.run) # Receiving Commands
+    t1 = threading.Thread(target= controller_4_DoF.run) # Receiving Commands
     t2 = threading.Thread(target= IMU.IMU)
     t3 = threading.Thread(target= sensor.sensor)
     t4 = threading.Thread(target= database.run)

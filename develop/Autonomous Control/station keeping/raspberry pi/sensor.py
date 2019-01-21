@@ -40,7 +40,7 @@ def sensor():
         print('Current Sensor Configured Successfully')
         sensor_times=0
         while True:   
-            sensor_times=(sensor_times+1)%10         
+            sensor_times=(sensor_times+1)%15         
             frequency=gl.get_value('frequency')
             if gl.get_value('flag'):
                 

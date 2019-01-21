@@ -159,15 +159,16 @@ class visualazation():
         return self.trajectory_line,self.line_forward_velocity,self.line_side_velocity,self.line_heading,self.line_boat,self.line_rudder,self.line_sail,self.line_win_boat,self.line_win_rudder,self.line_win_sail,self.line_wind,self.line_disired_angle,self.line_boundary,self.line_desired_angle
 
     def to_next_moment(self):
-        self.rudder,self.sail=self.my_boat.rudder+0,self.my_boat.sail+0
-        print('aaaaaaaaaaaaaaaaasail',self.sail)
+        self.rudder,self.target_sail=self.my_boat.rudder+0,self.my_boat.sail+0
+        # print('aaaaaaaaaaaaaaaaasail',self.sail)
         
         
         for i in range(0,10):
+            self.moving_sail()
             self.true_sail=self.get_true_sail()
             a,b,self.app_wind[1]=four_DOF_simulator.to_next_moment(0.01,self.velocity[0],-self.velocity[1],-self.roll_angular_velocity,-self.angular_velocity,self.y,self.x,-self.roll,math.pi/2-self.heading_angle,self.true_sail,self.rudder,self.true_wind)
             [self.velocity[0],self.velocity[1],self.roll_angular_velocity,self.angular_velocity]=-a
-            print(self.velocity,'v')
+            # print(self.velocity,'v')
             self.velocity[0]*=-1
             [self.y,self.x,self.roll,self.heading_angle]=b
             self.roll=-self.roll
@@ -179,19 +180,33 @@ class visualazation():
         self.my_boat.updata_pos(self.x,self.y,self.heading_angle,self.roll)
         #+random.gauss(0,0.01)
         self.my_boat.update_state()
-        
+
+    def moving_sail(self):
+        try:
+            if abs(self.target_sail-self.last_sail)>0.01:
+                self.sail+=self.sign(self.target_sail-self.last_sail)*0.01
+                # print('moving sail')
+        except:
+            print('an exception occurred when moving sail')
+        self.last_sail=self.sail
     def get_true_sail(self):
         sail=self.sail
+        
         if math.sin(self.app_wind[1])<0:
             sail=-sail
             # print('!!!!',self.sail,self.my_boat.if_force_turning)
             
-        if math.cos(self.app_wind[1])>math.cos(self.sail) or abs(self.app_wind[1]-self.sail)<0.1 :
+        if math.cos(self.app_wind[1])>math.cos(sail) or abs(self.app_wind[1]-sail)<0.1:
             sail=self.app_wind[1]
             # print('!!!\n!!!!!!',self.sail,self.my_boat.if_force_turning)
-        print(self.app_wind[1],sail)
+        # print(self.app_wind[1],sail)
+        
+        
         return sail
+
     def animate1(self,i):
+        self.to_next_moment()
+        self.to_next_moment()
         self.to_next_moment()
         self.to_next_moment()
         self.to_next_moment()

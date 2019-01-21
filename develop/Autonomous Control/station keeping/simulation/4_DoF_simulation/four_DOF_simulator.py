@@ -31,9 +31,9 @@ def to_next_moment(sample_time,u,v,p,r,x,y,roll,yaw,sail,rudder,true_wind):  ##t
     j_n=get_j_n(yaw,roll)
     all_other_terms=-Coriolis_v.dot(v_and_angular_v)-D_vn-g_n+sail_torque+rudder_torque
     # print('C',Coriolis_v.dot(v_and_angular_v),'\nD',D_vn,'\ng',g_n,'\nrudder tor',rudder_torque,rudder)
-    print('sail tor',sail_torque)
+    # print('sail tor',sail_torque)
     # print('C',Coriolis_v.dot(v_and_angular_v))
-    print('rudder tor',rudder_torque)
+    # print('rudder tor',rudder_torque)
     # print('D',-D_vn)
     # print('all term',Mass_and_inertia_matrix_inverse.dot(all_other_terms))
     v_and_angular_v=v_and_angular_v.astype(np.float64)
@@ -44,7 +44,7 @@ def to_next_moment(sample_time,u,v,p,r,x,y,roll,yaw,sail,rudder,true_wind):  ##t
     # print(location_and_orientation,'\n',j_n,j_n.dot(v_and_angular_v)*sample_time,'aaa')
     # print(location_and_orientation)
     location_and_orientation+=j_n.dot(v_and_angular_v)*sample_time
-    print('v and n',v_and_angular_v,location_and_orientation)
+    # print('v and n',v_and_angular_v,location_and_orientation)
     return v_and_angular_v,location_and_orientation,angle_app_wind
 
     
@@ -110,7 +110,7 @@ def drag_coefficients(angle_of_attack):
 def get_rudder_torque(rudder,u,v,r,p):
     u_rudder=-u+r*0 #yr=0
     v_rudder=-v-r*0.3+p*-0.1 #xr=0.3,zr=-0.15
-    print(-v,-r*0.3,-p*0.1)
+    # print(-v,-r*0.3,-p*0.1)
 
     rudder_speed=math.sqrt(v_rudder**2+u_rudder**2)
     angle_app_rudder=math.atan2(v_rudder,-u_rudder)
@@ -145,7 +145,7 @@ def get_C_v(u,v,p,r):
 
 def get_D_vn(u,v,p,r,roll,yaw):
     D_heel_and_yaw=np.array([0,0,2*abs(p)*p,1.1*abs(r)*r*math.cos(roll)]).T
-    print("D_heel_and_yaw",-D_heel_and_yaw)
+    # print("D_heel_and_yaw",-D_heel_and_yaw)
     D_k=get_D_k(u,v,p,r,roll,yaw)
     D_h=get_D_h(u,v,p,r,roll,yaw)
     
@@ -164,7 +164,7 @@ def get_D_k(u,v,p,r,roll,yaw):
                 (-keel_lift*math.cos(keel_angle_of_attack)-keel_drag*math.sin(keel_angle_of_attack))*0.1,
                 (keel_lift*math.cos(keel_angle_of_attack)+keel_drag*math.sin(keel_angle_of_attack))*0.03])
     D_k=D_k.T 
-    print('Dk',-D_k,keel_speed,keel_angle_of_attack)
+    # print('Dk',-D_k,keel_speed,keel_angle_of_attack)
     return D_k
 
 def get_D_h(u,v,p,r,roll,yaw):
@@ -181,12 +181,12 @@ def get_D_h(u,v,p,r,roll,yaw):
                 -h_lift*math.cos(hull_angle_of_attack)-F_rh*math.sin(hull_angle_of_attack)*math.cos(roll),
                 (-h_lift*math.cos(hull_angle_of_attack)-F_rh*math.sin(hull_angle_of_attack))*math.cos(roll)*0.03,
                 (-h_lift*math.cos(hull_angle_of_attack)-F_rh*math.sin(hull_angle_of_attack))*math.cos(roll)*0.02])
-    print('Dh',-D_h,hull_angle_of_attack)
+    # print('Dh',-D_h,hull_angle_of_attack)
     return D_h.T
     
 def get_g_n(roll):
     g_n=np.array([0,0,(0.8*roll**2+0.5*abs(roll))*sign(roll),0]).T
-    print('gn',-g_n)
+    # print('gn',-g_n)
     return g_n
 
 def get_j_n(yaw,roll):

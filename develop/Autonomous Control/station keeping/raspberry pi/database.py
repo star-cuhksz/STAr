@@ -13,8 +13,9 @@ import globalvar as gl
 def run():
     
 
-    db = pymysql.connect("192.168.0.104","root","root","star")
+    db = pymysql.connect("192.168.0.102","root","root","star")
     cursor = db.cursor()
+    print('Data base Connected')
     while True:
         frequency=gl.get_value('frequency')
         if gl.get_value('flag'):

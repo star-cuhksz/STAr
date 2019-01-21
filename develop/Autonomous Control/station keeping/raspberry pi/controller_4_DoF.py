@@ -14,7 +14,7 @@ import time
 import os
 import pigpio
 import globalvar as gl
-from sailboat_for_simulator_v1 import sailboat
+from sailboat_4_DoF import sailboat
 import math
 os.system('sudo killall -9 pigpiod')
 os.system('sudo pigpiod')
@@ -52,7 +52,7 @@ def run():
     last_rudder_value=0
     last_sail_value=0
     while True:
-        times=(times+1)%15
+        times=(times+1)%10
         
         if my_boat.flag==True:
             gl.set_value('flag',True)
@@ -62,10 +62,10 @@ def run():
             break
 
         ## change the frequency of communication when the sailboat arrives at its target area
-        if my_boat.if_keeping==True:
-            gl.set_value('frequency',20)
-        else:
-            gl.set_value('frequency',10)
+        # if my_boat.if_keeping==True:
+        #     gl.set_value('frequency',20)
+        # else:
+        #     gl.set_value('frequency',10)
         frequency=gl.get_value('frequency')
         
         ##get information of sailboat
@@ -73,7 +73,7 @@ def run():
         y=gl.get_value('y')
         heading_angle=gl.get_value('heading_angle')
         my_boat.frequency=frequency
-        my_boat.updata_pos(x,y,heading_angle)
+        my_boat.updata_pos(x,y,heading_angle,0)
         v=my_boat.velocity[0]
         u=my_boat.velocity[1]
         w=my_boat.angular_velocity
@@ -88,6 +88,8 @@ def run():
         sail_output=1000+sail*573.4
         if math.sin(heading_angle-math.pi/2)<0:
             sail_output=950+(sail_output-1000)*9/7.5
+        else:
+            sail_output=1000+(sail_output-1000)*0.85
         
         # if sail_output>1750:
         #     sail_output=1750
@@ -95,15 +97,15 @@ def run():
         #     sail_output=950
 
         ## To prevent the high current leading to a breakdown, the rudder and sail are controlled saperately.
-        
-        if times%3 ==2: 
-            # if last_sail_value!=sail:
-            # print('sail',sail,'desired_angle',desired_angle)
-            pi.set_servo_pulsewidth(ESC4,sail_output) 
-        elif times%2 ==0:
+        if times%3 ==0:
             # if last_rudder_value!=rudder:
-            # print('rudder',rudder)
+            print('rudder',rudder)
             pi.set_servo_pulsewidth(ESC3,rudder_output)
+        elif times%3 ==2: 
+            # if last_sail_value!=sail:
+            print('sail',sail,'desired_angle',desired_angle)
+            pi.set_servo_pulsewidth(ESC4,sail_output) 
+        
         last_rudder_value=rudder
         last_sail_value=sail
 

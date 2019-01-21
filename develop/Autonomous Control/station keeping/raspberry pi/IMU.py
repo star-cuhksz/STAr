@@ -68,14 +68,16 @@ def IMU():
     print('Magnetometer Calibration Status = ', int(magno))
     time.sleep(2)
     ### set reference heading angle
-    reference_heading, roll, pitch = bno.read_euler()
+    
+    reference_heading, ref_roll, pitch = bno.read_euler()
     print('ref',reference_heading)
     try: 
         
         last_heading_angle=0
+        last_roll=0
         IMU_times=0
         while True:
-            IMU_times=(IMU_times+1)%5
+            IMU_times=(IMU_times+1)%10
             frequency=gl.get_value('frequency')
             
             if gl.get_value('flag'):
@@ -85,15 +87,17 @@ def IMU():
             
                 # Read the Euler angles for heading_angle, roll, pitch (all in degrees).
             heading_angle, roll, pitch = bno.read_euler()
-            
+            roll=regular_roll(roll,last_roll,ref_roll)
             heading_angle=regular_angle(heading_angle,last_heading_angle,reference_heading)
             heading_angle=-heading_angle
             # heading_angle=-heading_angle
                 #gl.set_value('heading_angle',heading_angle) # Shared the heading_angle information
             gl.set_value('heading_angle',heading_angle)
+            gl.set_value('roll',roll)
             last_heading_angle=heading_angle
+            last_roll=roll
             if IMU_times==0:
-                print('heading_angle = {0:0.2F}'.format(heading_angle))
+                print('heading_angle = {0:0.2F}'.format(heading_angle),'roll = {0:0.2F}'.format(roll))
                 
                 
             time.sleep(1/frequency)
@@ -115,4 +119,14 @@ def regular_angle(angle,last_angle,reference_heading):
             angle-=2*math.pi
         if angle<-math.pi:
             angle+=2*math.pi
+        return angle
+def regular_roll(angle,last_angle,ref_roll):
+    if angle < -90 or angle > 90:
+        return last_angle
+    else:
+        angle=(angle-ref_roll)/57.32
+        # if angle>math.pi/2:
+        #     angle-=math.pi
+        # if angle<-math.pi/2:
+        #     angle+=math.pi
         return angle

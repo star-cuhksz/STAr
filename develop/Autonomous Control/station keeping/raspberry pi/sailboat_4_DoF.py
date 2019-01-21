@@ -20,7 +20,7 @@ class sailboat:
 
 
     def __init__(self,velocity=[0,0],heading_angle=0,course_angle=0,desired_angle=0,angular_velocity=0,location=[2,3],
-    rudder=0,sail=0,sample_time=0.1,target=[3,5.5],IMU_sample_time=0.1,data_base_sample_time=0.1):
+    rudder=0,sail=0,sample_time=0.1,target=[3,6],IMU_sample_time=0.1,data_base_sample_time=0.1):
     ####    all the units of angles are rad 
         self.velocity=velocity ###[v,u], where v is the heading angle of the sailboat 
         self.heading_angle=heading_angle
@@ -36,8 +36,8 @@ class sailboat:
 
         self.target=target    ###the center of target area[x,y]   self.dM=10,which is the radius of the pre-arrived area ,self.dT=5,which is r of target area          
         self.frequency=10
-        self.dT=1.3       ## radius of target area
-        self.dM=2.8         ## radius of pre arrive
+        self.dT=1.4       ## radius of target area
+        self.dM=2.8        ## radius of pre arrive
         self.desired_v=0
         self.maxrudder=math.pi/4  ##max angle of rudder
         self.maxsail=math.pi/12*5
@@ -68,7 +68,7 @@ class sailboat:
 
         self.rudder_controller=PID()
 
-        self.d=3.5
+        self.d=3.65
         
         #this part is to add the boundary
         
@@ -106,6 +106,9 @@ class sailboat:
             self.sail_control()
             # self.sail,self.rudder=0,0
             self.get_desired_angle(self.target[0],self.target[1])
+
+        if self.time>2800:  ### it's time to go home
+            self.next_desired_angle=-math.pi/2
         # else:
         #     print('sleep',self.rudder)
         # self.desired_angle=0.7
@@ -242,8 +245,7 @@ class sailboat:
             self.if_keeping=True
             self.keeping_in_target_area()
         self.tacking_detector()
-        if self.time>2800:  ### it's time to go home
-            self.next_desired_angle=math.atan2(0-self.location[1],3.5-self.location[0])
+        
     
 
     def go_to_target_area(self,boat_to_target_angle,distance_st):
@@ -253,7 +255,7 @@ class sailboat:
         
         
         if self.tacking_state=='is tacking':
-            if self.time-self.start_tacking_time>4:
+            if self.time-self.start_tacking_time>0:
                 self.desired_angle=self.tacking_angle
             # else:
             #     print('aaa',self.sail)
@@ -316,12 +318,12 @@ class sailboat:
                     if self.init_tacking_sign !=self.sign(math.sin(self.heading_angle-math.pi/2)):
                         print('tacked successfully')
                         self.optimal_sail_adjustment=0
-                        # self.d-=0.05
+                        self.d-=0.05
                     else:
                         print('failed tacking')
                         self.if_force_turning=True
                         self.go_to_center_angle=math.pi/2-self.sign(math.pi/2-self.tacking_angle)
-                        # self.d+=0.05
+                        self.d+=0.05
 
         
 
@@ -340,7 +342,7 @@ class sailboat:
         # print(self.next_desired_angle,self.true_wind)
 
     def force_to_turn_when_hit_the_boundary(self,boat_to_target_angle):
-        if self.location[0]>1.3 and self.location[0]<5.6 and self.location[1]>-3 and self.location[1]<7.3:
+        if self.location[0]>1.3 and self.location[0]<5.6 and self.location[1]>-3 and self.location[1]<7.8:
             print('',end='')
         else:
             if self.location[0]<2:
@@ -367,8 +369,11 @@ class sailboat:
             self.rudder=self.maxrudder*self.sign(math.sin(self.heading_angle-self.true_wind[1]-math.pi))
             self.final_heading_sign=self.sign(math.sin(self.true_wind[1]-math.pi-self.heading_angle))
             if self.final_heading_sign!=self.initial_heading_sign:
-                self.keeping_state=3
-                
+                if self.initial_heading_sign<0:
+                    if self.heading_angle<math.pi-0.3:
+                        self.keeping_state=3
+                else:
+                    self.keeping_state=3
                 if self.velocity[0]>0.15:
                     self.d-=0.1
                 print('State 3 parameter D',self.d)
@@ -378,11 +383,14 @@ class sailboat:
                 self.d+=0.1
                 self.keeping_state=5
                 self.init_tacking_sign=self.sign(math.sin(self.heading_angle-math.pi/2))
-                print('Turning fail,State 5')
+                print('Turning fail,State 5',self.d)
 
         
         elif self.keeping_state==3: ##尝试保持迎风
-            self.desired_angle=self.regular_angle(self.true_wind[1]-math.pi)
+            if self.initial_heading_sign==1:
+                self.desired_angle=self.regular_angle(self.true_wind[1]-math.pi)
+            else:
+                self.desired_angle=self.regular_angle(self.true_wind[1]-math.pi)-0.3
             if  self.location[1]<self.target[1] or abs(self.heading_angle-math.pi/2)>0.4:
                 self.keeping_state=1
                 print('3-state 1')
@@ -404,10 +412,10 @@ class sailboat:
  
     def state1(self,boat_to_target_angle):
         self.desired_v=self.d*0.3*abs(self.true_wind[1]-math.pi-self.desired_angle)**1.5/2/math.tan(self.maxrudder)
-        if self.desired_v<0.3:
-            self.desired_v=0.3
-        elif self.desired_v>0.65:
-            self.desired_v=0.65
+        if self.desired_v<0.4:
+            self.desired_v=0.4
+        elif self.desired_v>0.55:
+            self.desired_v=0.55
         if math.sin(self.true_wind[1]-self.heading_angle)>0:
             self.desired_angle=self.regular_angle(self.true_wind[1]-math.pi*0.7)
         else:
@@ -416,19 +424,20 @@ class sailboat:
             a=2
             b=2.4
             # print(self.desired_v)
-            total_distance=(-a*b*math.log(1-b/a*self.desired_v)-b*self.desired_v)/b**2
+            total_distance=1.5*(-a*b*math.log(1-b/a*self.desired_v)-b*self.desired_v)/b**2
             
-            remanent_distance=total_distance-(-a*b*math.log(1-b/a*self.velocity[0])-b*self.velocity[0])/b**2
+            remanent_distance=total_distance-1.5*(-a*b*math.log(1-b/a*self.velocity[0])-b*self.velocity[0])/b**2
+            
             # print(total_distance,remanent_distance)
-            x=remanent_distance*math.cos(self.desired_angle)+0.45*self.sign(math.cos(self.desired_angle))
-            y=(0.4*remanent_distance*math.sin(self.desired_angle)+0.5)
+            x=remanent_distance*math.cos(self.desired_angle)+0.85*self.sign(math.cos(self.desired_angle))
+            y=(0.6*remanent_distance*math.sin(self.desired_angle)+0.6)
             print([x,remanent_distance,self.location[0]])
             print([self.location[0]+x,self.location[1]+y],(self.location[0]+x-self.target[0])**2+(self.location[1]+y-self.target[1])**2,self.velocity[0]>self.desired_v)
         else:
-            x=0.45*self.sign(math.cos(self.desired_angle))
-            y=0.5
+            x=0.75*self.sign(math.cos(self.desired_angle))
+            y=0.6
         
-        if (self.location[0]+x-self.target[0])**2+(self.location[1]+y-self.target[1])**2>0.85*self.dT**2:
+        if (self.location[0]+x-self.target[0])**2+(self.location[1]+y-self.target[1])**2>self.dT**2:
             ##即将出边界
             print('out!!',[x,y],self.location)
             print([self.location[0]+x,self.location[1]+y],(self.location[0]+x-self.target[0])**2+(self.location[1]+y-self.target[1])**2)
@@ -438,20 +447,22 @@ class sailboat:
                 print('state 1- State 5')
                 self.init_tacking_sign=self.sign(math.sin(self.heading_angle-math.pi/2))
                 self.sail=self.maxsail
-                self.sleep_time=2
+                self.sleep_time=4
             else:
-                self.sleep_time=3
+                self.sleep_time=2
                 self.keeping_state=2
                 self.initial_heading_sign=self.sign(math.sin(self.true_wind[1]-math.pi-self.heading_angle))
         else:
             # print('111')
-            if self.velocity[0]-self.desired_v>0:
+            if self.velocity[0]-self.desired_v>-0.05:
                 # print('222')
                 if math.cos(self.heading_angle-boat_to_target_angle)<0:
                     # print('333')
                     self.sleep_time=self.get_sleeping_time(y,x)
+                    if self.sleep_time>2:
+                        self.sleep_time=2
                     print('sleep',self.sleep_time)
-                    self.sail=1
+                    self.sail=self.maxsail
                     self.keeping_state=2
                     print('state 2',self.velocity[0],self.desired_v)
                     self.initial_heading_sign=self.sign(math.sin(self.true_wind[1]-math.pi-self.heading_angle))
@@ -464,7 +475,7 @@ class sailboat:
         b2=max(abs(a*math.cos(C)-math.sqrt((a*math.cos(C))**2+c**2-a**2))-0.4,0)
         b=min(b1,b2)
         print(a,b,c,C,a*math.cos(C)**2,c**2-a**2)
-        return int(b*10)
+        return int(b*5)
     def updata_pos(self,x,y,heading_angle,roll):
         
         last_x=self.location[0]
