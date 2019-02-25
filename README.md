@@ -1,7 +1,21 @@
 # ARS-WebControl
-This is the repo of Web Control group.
+Sailboat Test Arena ([STAr](http://sailboat.oicp.io/STAr/)) is a research project related to teleoperation and automation of sailboats, conducted by State Joint Engineering Lab on Robotics and Intelligent Manufacturing, The Chinese University of Hong Kong, Shenzhen. This repository contains its web server, serial server, and some data.
 
-## Catalogue
+## STAr Architecture
+
+### Overview
+
+### Physical Environment
+
+##### SailBot
+
+##### Camera
+
+##### Wind field
+
+### Webserver
+
+## Repo. Catalogue
 * [STAr](https://github.com/BrandoZhang/STAr/tree/master/STAr) :         main workshop directory.
 * [develop](https://github.com/BrandoZhang/STAr/tree/master/develop) :      test&develop directory.
 * [docs](https://github.com/BrandoZhang/STAr/tree/master/docs):         some reference documents.
