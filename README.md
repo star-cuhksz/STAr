@@ -5,6 +5,8 @@ Sailboat Test Arena ([STAr](http://sailboat.oicp.io/STAr/)) is a research projec
 
 ### Overview
 
+![1551172800194](C:\Users\Surface Sun\AppData\Roaming\Typora\typora-user-images\1551172800194.png)
+
 ### Physical Environment
 
 ##### SailBot
