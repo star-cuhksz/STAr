@@ -9,7 +9,7 @@ Sailboat Test Arena ([STAr](http://sailboat.oicp.io/STAr/)) is a research projec
 
 ### Overview
 
-![overview](/overview.png)
+![overview](docs/fig/overview.png)
 
 ### Physical Environment
 
