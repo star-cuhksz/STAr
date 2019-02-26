@@ -6,7 +6,7 @@
 
 
 
-<center><img src="docs/fig/icon.png"></center>
+<center><img src="docs/fig/icon.png" href="http://sailboat.oicp.io/STAr"></center>
 
 
 
