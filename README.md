@@ -1,4 +1,7 @@
-# ![overview](docs/fig/icon.png)ARS-WebControl 
+# Sailboat Test Arena ([STAr](http://sailboat.oicp.io/STAr/)) 
+
+![overview](docs/fig/icon.png)
+
 Sailboat Test Arena ([STAr](http://sailboat.oicp.io/STAr/)) is a research project related to teleoperation and automation of sailboats, conducted by State Joint Engineering Lab on Robotics and Intelligent Manufacturing, The Chinese University of Hong Kong, Shenzhen. This repository contains its web server, serial server, and some data.
 
 ## STAr Architecture
