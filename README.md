@@ -1,3 +1,7 @@
+---
+typora-root-url: docs\fig
+---
+
 # ARS-WebControl
 Sailboat Test Arena ([STAr](http://sailboat.oicp.io/STAr/)) is a research project related to teleoperation and automation of sailboats, conducted by State Joint Engineering Lab on Robotics and Intelligent Manufacturing, The Chinese University of Hong Kong, Shenzhen. This repository contains its web server, serial server, and some data.
 
@@ -5,11 +9,11 @@ Sailboat Test Arena ([STAr](http://sailboat.oicp.io/STAr/)) is a research projec
 
 ### Overview
 
-![1551172800194](C:\Users\Surface Sun\AppData\Roaming\Typora\typora-user-images\1551172800194.png)
+![overview](/overview.png)
 
 ### Physical Environment
 
-##### SailBot
+##### miniSailBots
 
 ##### Camera
 
