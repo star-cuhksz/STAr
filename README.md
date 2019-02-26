@@ -1,6 +1,14 @@
+
+
 # Sailboat Test Arena ([STAr](http://sailboat.oicp.io/STAr/)) 
 
-![overview](docs/fig/icon.png)
+
+
+
+
+<center><img src="docs/fig/icon.png"></center>
+
+
 
 Sailboat Test Arena ([STAr](http://sailboat.oicp.io/STAr/)) is a research project related to teleoperation and automation of sailboats, conducted by State Joint Engineering Lab on Robotics and Intelligent Manufacturing, The Chinese University of Hong Kong, Shenzhen. This repository contains its web server, serial server, and some data.
 
@@ -8,7 +16,7 @@ Sailboat Test Arena ([STAr](http://sailboat.oicp.io/STAr/)) is a research projec
 
 ### Overview
 
-![overview](docs/fig/overview.png)
+<center><img src="docs/fig/overview.png" width=50%></center>
 
 ### Physical Environment
 
