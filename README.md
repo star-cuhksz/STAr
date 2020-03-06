@@ -14,7 +14,7 @@ Sailboat Test Arena ([STAr](http://sailboat.oicp.io/STAr/)) is a research projec
   <img src="docs/fig/overview.jpg" width=70% alt="Overview"/>
 </p>
 
-STAr Architecture. The platform comprises of mini-sized sailboats, named miniSailBots and an arena including an $8 m \times 10 m$ pool with $0.3 m$ depth water, quasi controllable wind field, ceiling-installed cameras, and network server.
+STAr Architecture. The platform comprises of mini-sized sailboats, named miniSailBots and an arena including an 8m x 10m pool with 0.3m depth water, quasi controllable wind field, ceiling-installed cameras, and network server.
 
 ### Physical Environment
 
