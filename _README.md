@@ -14,7 +14,7 @@ Sailboat Test Arena ([STAr](http://sailboat.oicp.io/STAr/)) is a research projec
   <img src="docs/fig/overview.jpg" width=70% alt="Overview"/>
 </p>
 
-TODO : say something
+STAr Architecture. The platform comprises of mini-sized sailboats, named miniSailBots and an arena including an $8 m \times 10 m$ pool with $0.3 m$ depth water, quasi controllable wind field, ceiling-installed cameras, and network server.
 
 ### Physical Environment
 
@@ -22,7 +22,7 @@ TODO : say something
   <img src="docs/fig/panoramic.jpg" width=90% alt="panoramic"/>
 </p>
 
-TODO : say something
+This is a panoramic view of STAr platform in reality.
 
 #### miniSailBots
 
@@ -31,7 +31,7 @@ TODO : say something
   <img src="docs/fig/miniSailBotB.jpg" width=30% alt="miniSailBotB"/>
 </p>
 
-TODO : say something
+The different type of miniSailBot robots.
 
 #### Camera
 
@@ -39,7 +39,7 @@ TODO : say something
   <img src="docs/fig/stitching_big.jpg" width=80% alt="Camera"/>
 </p>
 
-TODO : say something
+The concept of multi-camera stitching framework. The goal is for robots localization in a large view. 
 
 <p align="center">
   <img src="docs/fig/DataCollection.jpg" width=50% alt="Camera"/>
@@ -51,7 +51,7 @@ TODO : say something
   <img src="docs/fig/uniform.jpg" width="250" alt="Wind Field"/>
 </p>
 
-TODO : say something
+This is the wind condition in our STAr platform.
 
 #### Web Server
 
@@ -59,7 +59,7 @@ TODO : say something
   <img src="docs/fig/internet_server.png" width=50% alt="Internet Server"/>
 </p>
 
-TODO : say something
+As you can see, the UI is shown when you login in our system.
 
 ### Experiment
 
@@ -68,17 +68,16 @@ TODO : say something
   <img src="docs/fig/STArDRL.png" width=30% alt="STArDRL"/>
 </p>
 
-TODO : say something
+This is the RL demo, we implemented for navigation.
 
 <p align="center">
   <img src="docs/fig/signal.png" width=90% alt="Camera"/>
 </p>
 
-TODO : say something
+The sensor and control data will be generated. Besides, you can download or retrive these data for forward purpose.
 
 #### Result
 
-TODO : say something
 see [Experiment.mp4](STAr/video/exp.mp4)
 
 ## Repo. Catalogue
